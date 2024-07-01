@@ -1,6 +1,6 @@
 const config = {
     host       : "Localhost",
-    database   : "MoneyMinds",
+    database   : "moneyminds",
     user       : "postgres",
     password   : "root",
     port       : "5432"

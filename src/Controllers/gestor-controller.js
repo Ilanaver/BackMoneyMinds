@@ -21,25 +21,14 @@ router.get('/:idusuario', async (req, res) => {
     }
     return respuesta;
 }) 
-router.post('/addOperacio', async (req, res) => {
-    let IdPerfil = req.body.IdPerfil
-    let IdTipos = req.body.IdTipos
-    let IdSubTipo = req.body.IdSubTipo
-    let Importe = req.body.Importe
-    let Fecha = req.body.Fecha
-    let Observaciones = req.body.Observaciones
-    let nuevoOperacion = new Gestor(IdPerfil, IdTipos, IdSubTipo, Importe, Fecha, Observaciones)
-    if (!IdPerfil || !IdTipos || !IdSubTipo || !Importe || !Fecha || !Observaciones) {
-        res.status(404).send("Faltan datos")
-        console.log(IdPerfil)
-        console.log(IdTipos)
-        console.log(IdSubTipo)
-        console.log(Importe)
-        console.log(Observaciones)
-        console.log(Fecha)
+router.post('/addOperacion', async (req, res) => {
+    let { idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones } = req.body;
+    if (!idperfil_fk || !idtipos_fk || !idsubtipo_fk || !importe || !fecha || !observaciones) {
+        res.status(400).send("Faltan datos");
+        console.log(idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones);
     } else {
-        console.log('vino pa ca')
-        res.status(201).json({ message: 'Se agrego correctamente.', alumno: nuevoOperacion });
+        const result = await svc.addByIdAsync(idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones);
+        res.status(201).json({ message: 'Se agrego correctamente.', result });
     }
-})
+});
 export default router;
