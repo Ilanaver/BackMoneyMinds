@@ -21,6 +21,22 @@ router.get('/:idusuario', async (req, res) => {
     }
     return respuesta;
 }) 
+router.get('/saldo/:idusuario', async (req, res) => {
+    let respuesta;
+    const idusuario = req.params.idusuario; 
+    const returnArray = await svc.getSaldoByIdAsync(idusuario);
+    console.log('entra')
+    if(returnArray != null)
+    {
+        console.log('normal')
+        respuesta = res.status(200).json(returnArray);
+    } else
+    {
+        console.log('else')
+        respuesta = res.status(500).send('Error Interno')
+    }
+    return respuesta;
+}) 
 router.post('/addOperacion', async (req, res) => {
     let { idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones } = req.body;
     if (!idperfil_fk || !idtipos_fk || !idsubtipo_fk || !importe || !fecha || !observaciones) {
