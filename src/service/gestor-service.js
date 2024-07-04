@@ -17,4 +17,9 @@ export default class gestorService{
         const returnArray = await repo.addByIdAsync(IdPerfil, IdTipos, IdSubTipo, Importe, Fecha, Observaciones);
         return returnArray;
     }
+    deleteByIdAsync = async (idusuario) => {
+        const repo = new gestorRepository();
+        const returnArray = await repo.deleteByIdAsync(idusuario);
+        return returnArray;
+    }
 }

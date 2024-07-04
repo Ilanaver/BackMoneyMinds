@@ -47,4 +47,20 @@ router.post('/addOperacion', async (req, res) => {
         res.status(201).json({ message: 'Se agrego correctamente.', result });
     }
 });
+router.delete('/operaciones/:idusuario', async (req, res) => {
+    let respuesta;
+    const idusuario = req.params.idusuario; 
+    const returnArray = await svc.deleteByIdAsync(idusuario);
+    console.log('entra')
+    if(returnArray != null)
+    {
+        console.log('normal')
+        respuesta = res.status(200).json('Eliminado correctamente.');
+    } else
+    {
+        console.log('else')
+        respuesta = res.status(500).send('Error Interno')
+    }
+    return respuesta;
+}) 
 export default router;
