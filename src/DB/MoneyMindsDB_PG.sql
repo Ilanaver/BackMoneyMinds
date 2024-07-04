@@ -5,7 +5,7 @@
 -- Dumped from database version 16.2
 -- Dumped by pg_dump version 16.0
 
--- Started on 2024-07-03 14:25:23
+-- Started on 2024-07-04 10:22:08
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -458,7 +458,7 @@ ALTER TABLE ONLY public.definicionterminos ALTER COLUMN idtermino SET DEFAULT ne
 
 
 --
--- TOC entry 4674 (class 2604 OID 16443)
+-- TOC entry 4674 (class 2604 OID 16487)
 -- Name: gestor idgestor; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -548,6 +548,9 @@ INSERT INTO public.gestor VALUES (1, 1, 1, 1, 1000, '2024-07-01 10:00:00', 'Prim
 INSERT INTO public.gestor VALUES (2, 2, 2, 2, 2000, '2024-07-02 11:00:00', 'Segunda observación');
 INSERT INTO public.gestor VALUES (3, 3, 3, 3, 3000, '2024-07-03 12:00:00', 'Tercera observación');
 INSERT INTO public.gestor VALUES (4, 2, 1, 4, -4000, '2024-07-07 00:00:00', 'Mcdonals');
+INSERT INTO public.gestor VALUES (5, 2, 2, 2, 10000, '2024-02-02 00:00:00', 'cobre el aguinaldo');
+INSERT INTO public.gestor VALUES (6, 2, 2, 2, 10000, '2024-02-02 00:00:00', 'cobre el aguinaldo');
+INSERT INTO public.gestor VALUES (7, 2, 2, 2, 10000, '2024-02-02 00:00:00', 'cobre el aguinaldo v3');
 
 
 --
@@ -619,7 +622,7 @@ SELECT pg_catalog.setval('public.definicionterminos_idtermino_seq', 10, true);
 -- Name: gestor_idgestor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.gestor_idgestor_seq', 1, false);
+SELECT pg_catalog.setval('public.gestor_idgestor_seq', 7, true);
 
 
 --
@@ -757,7 +760,7 @@ ALTER TABLE ONLY public.subtipomovimiento
     ADD CONSTRAINT fk_subtipomovimiento_tipos FOREIGN KEY (idtipos_fk) REFERENCES public.tipos(idtipos);
 
 
--- Completed on 2024-07-03 14:25:23
+-- Completed on 2024-07-04 10:22:08
 
 --
 -- PostgreSQL database dump complete
