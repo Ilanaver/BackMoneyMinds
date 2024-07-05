@@ -21,6 +21,21 @@ router.get('/operaciones/:idusuario', async (req, res) => {
     }
     return respuesta;
 }) 
+router.get('/operaciones/:idusuario/:idtipos', async (req, res) => {
+    let respuesta;
+    const idusuario = req.params.idusuario; 
+    const idtipos = req.params.idtipos;
+    const returnArray = await svc.getOppByTipoAsync(idusuario, idtipos); // Llama a la función correcta
+    console.log('entra');
+    if (returnArray != null) {
+        console.log('normal');
+        respuesta = res.status(200).json(returnArray);
+    } else {
+        console.log('else');
+        respuesta = res.status(500).send('Error Interno');
+    }
+    return respuesta;
+});
 router.get('/:idusuario', async (req, res) => {
     let respuesta;
     const idusuario = req.params.idusuario; 

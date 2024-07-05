@@ -6,6 +6,11 @@ export default class gestorService{
         const returnArray = await repo.getByIdAsync(idusuario);
         return returnArray;
     }
+    getOppByTipoAsync = async (idusuario, idtipos) => {
+        const repo = new gestorRepository();
+        const returnArray = await repo.getOppByTipoAsync(idusuario, idtipos);
+        return returnArray;
+    }
     getSaldoByIdAsync = async (idusuario) => {
         const repo = new gestorRepository();
         const returnArray = await repo.getSaldoByIdAsync(idusuario);
