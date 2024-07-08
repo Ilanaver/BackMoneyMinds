@@ -35,4 +35,30 @@ router.get('/:titulo', async (req, res) => {
     }
     return respuesta;
 }) 
+router.post('/addDefinicion', async (req, res) => {
+    let { titulo, contenido } = req.body;
+    if (!titulo || !contenido) {
+        res.status(400).send("Faltan datos");
+        console.log(titulo, contenido);
+    } else {
+        const result = await svc.addDefinicionAsync(titulo, contenido);
+        res.status(201).json({ message: 'Se agrego correctamente.', result });
+    }
+});
+router.delete('/deleteTermino/:idtermino', async (req, res) => {
+    let respuesta;
+    const idtermino = req.params.idtermino; 
+    const returnArray = await svc.deleteByIdAsync(idtermino);
+    console.log('entra')
+    if(returnArray != null)
+    {
+        console.log('normal')
+        respuesta = res.status(200).json('Eliminado correctamente.');
+    } else
+    {
+        console.log('else')
+        respuesta = res.status(500).send('Error Interno')
+    }
+    return respuesta;
+}) 
 export default router

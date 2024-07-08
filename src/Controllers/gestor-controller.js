@@ -62,6 +62,16 @@ router.post('/addOperacion', async (req, res) => {
         res.status(201).json({ message: 'Se agrego correctamente.', result });
     }
 });
+/*
+{
+    "idperfil_fk": 2,
+    "idtipos_fk": 2,
+    "idsubtipo_fk": 2,
+    "importe": 10000,
+    "fecha": "2024-02-02",
+    "observaciones": "cobre el aguinaldo"
+}
+*/
 router.delete('/operaciones/:idusuario', async (req, res) => {
     let respuesta;
     const idusuario = req.params.idusuario; 

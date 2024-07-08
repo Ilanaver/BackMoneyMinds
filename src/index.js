@@ -3,6 +3,7 @@
 
 import Gestor from '../src/Controllers/gestor-controller.js'
 import Definiciones from '../src/Controllers/definiciones-controller.js'
+import Multimedia from '../src/Controllers/multimedia-controller.js'
 import express from "express"; // hacer npm i express
 import cors from "cors"; // hacer npm i cors
 const app = express();
@@ -18,6 +19,7 @@ app.get('/', function (req, res)  {
 
 app.use('/gestor', Gestor)
 app.use('/definiciones', Definiciones)
+app.use('/contenido-multimedia', Multimedia)
 
 
 
