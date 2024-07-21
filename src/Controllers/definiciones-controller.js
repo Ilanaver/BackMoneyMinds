@@ -35,16 +35,25 @@ router.get('/:titulo', async (req, res) => {
     }
     return respuesta;
 }) 
-router.post('/addDefinicion', async (req, res) => {
+router.post('/agregar-definicion', async (req, res) => {
     let { titulo, contenido } = req.body;
+    var agregado = {
+        "titulo": titulo,
+        "contenido": contenido,
+      };
     if (!titulo || !contenido) {
-        res.status(400).send("Faltan datos");
-        console.log(titulo, contenido);
+        res.status(400).json({ message: 'Faltan datos.', agregado });
     } else {
         const result = await svc.addDefinicionAsync(titulo, contenido);
-        res.status(201).json({ message: 'Se agrego correctamente.', result });
+        res.status(201).json({ message: 'Se agrego correctamente.', agregado });
     }
 });
+/*
+{
+    "titulo": "",
+    "contenido": ""
+}
+*/
 router.delete('/deleteTermino/:idtermino', async (req, res) => {
     let respuesta;
     const idtermino = req.params.idtermino; 
