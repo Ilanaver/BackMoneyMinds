@@ -23,9 +23,26 @@ router.get('/operaciones/:idusuario', async (req, res) => {
 }) 
 router.get('/operaciones/:idusuario/:idtipos', async (req, res) => {
     let respuesta;
+    console.log("paso")
     const idusuario = req.params.idusuario; 
     const idtipos = req.params.idtipos;
     const returnArray = await svc.getOppByTipoAsync(idusuario, idtipos); // Llama a la función correcta
+    console.log('entra');
+    if (returnArray != null) {
+        console.log('normal');
+        respuesta = res.status(200).json(returnArray);
+    } else {
+        console.log('else');
+        respuesta = res.status(500).send('Error Interno');
+    }
+    return respuesta;
+});
+router.get('/:idusuario/:idtipos', async (req, res) => {
+    let respuesta;
+    console.log("paso")
+    const idusuario = req.params.idusuario; 
+    const idtipos = req.params.idtipos;
+    const returnArray = await svc.getSaldoByTipoIdAsync(idusuario, idtipos); // Llama a la función correcta
     console.log('entra');
     if (returnArray != null) {
         console.log('normal');
