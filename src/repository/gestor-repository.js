@@ -81,6 +81,25 @@ export default class gestorRepository {
         }
         return returnArray;
     } 
+    getSubtiposByTipoAsync = async (idtipos) => {
+        let returnArray = null;
+        const client = new Client(DBConfig);
+        try {
+            await client.connect();
+            console.log('Connected to the database 2');
+            const sql = `SELECT s.idsubtipo, s.descripcion as "Subtipo"
+            FROM subtipomovimiento  s
+            WHERE s.idtipos_fk = $1`;
+            const values = [idtipos] 
+            console.log(idtipos)
+            const result = await client.query(sql,values);
+            await client.end();
+            returnArray = result.rows;
+        } catch (error) {
+            console.log(error);
+        }
+        return returnArray;
+    }
 
     addByIdAsync = async (IdPerfil, IdTipos, IdSubTipo, Importe, Fecha, Observaciones) => {
         let returnArray = null;

@@ -21,6 +21,22 @@ router.get('/operaciones/:idusuario', async (req, res) => {
     }
     return respuesta;
 }) 
+router.get('/subtipos/:idtipos', async (req, res) => {
+    let respuesta;
+    const idtipos = req.params.idtipos;
+    const returnArray = await svc.getSubtiposByTipoAsync(idtipos);
+    console.log('entra')
+    if(returnArray != null)
+    {
+        console.log('normal')
+        respuesta = res.status(200).json(returnArray);
+    } else
+    {
+        console.log('else')
+        respuesta = res.status(500).send('Error Interno')
+    }
+    return respuesta;
+}) 
 router.get('/operaciones/:idusuario/:idtipos', async (req, res) => {
     let respuesta;
     console.log("paso")
@@ -69,6 +85,7 @@ router.get('/:idusuario', async (req, res) => {
     }
     return respuesta;
 }) 
+
 router.post('/addOperacion', async (req, res) => {
     let { idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones } = req.body;
     if (!idperfil_fk || !idtipos_fk || !idsubtipo_fk || !importe || !fecha || !observaciones) {
