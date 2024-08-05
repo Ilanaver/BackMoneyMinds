@@ -27,7 +27,7 @@ export default class definicionesRepository {
             await client.connect();
             console.log('Connected to the database');
             const sql = `SELECT titulo, contenido FROM definicionterminos
-            WHERE titulo LIKE '%' || $1 || '%'`;
+            WHERE titulo ILIKE '%' || $1 || '%'`;
             const values = [titulo] 
             const result = await client.query(sql, values);
             await client.end();

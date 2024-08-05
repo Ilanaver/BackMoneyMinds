@@ -15,7 +15,29 @@ export default class gestorRepository {
             FROM gestor g
             INNER JOIN tipos t ON g.idtipos_fk = t.idtipos
             INNER JOIN subtipomovimiento s ON g.idsubtipo_fk = s.idsubtipo
-            WHERE g.idperfil_fk = $1`;
+            WHERE g.idperfil_fk = $1
+            ORDER BY g.fecha`;
+            const values = [idusuario] 
+            const result = await client.query(sql,values);
+            await client.end();
+            returnArray = result.rows;
+        } catch (error) {
+            console.log(error);
+        }
+        return returnArray;
+    }
+    getReporteByMesAsync = async (idusuario, fecha) => {
+        let returnArray = null;
+        const client = new Client(DBConfig);
+        try {
+            await client.connect();
+            console.log('Connected to the database');
+            const sql = `SELECT g.importe, t.descripcion AS tipo, s.descripcion AS subtipo
+            FROM gestor g
+            INNER JOIN tipos t ON g.idtipos_fk = t.idtipos
+            INNER JOIN subtipomovimiento s ON g.idsubtipo_fk = s.idsubtipo
+            WHERE g.idperfil_fk = $1, g.fecha = $2
+            `;
             const values = [idusuario] 
             const result = await client.query(sql,values);
             await client.end();
