@@ -72,4 +72,20 @@ export default class definicionesRepository {
         console.log(returnArray)
         return returnArray;
     }
+    getDefinicionesAsync = async () => {
+        let returnArray = null;
+        const client = new Client(DBConfig);
+        try {
+            await client.connect();
+            const sql = `Select * from definicionterminos`;
+            const result = await client.query(sql);
+            console.log('Data inserted successfully');
+            await client.end();
+            returnArray = result.rows;
+        } catch (error) {
+            console.log(error);
+        }
+        console.log(returnArray)
+        return returnArray;
+    }
 }

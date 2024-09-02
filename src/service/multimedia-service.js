@@ -10,6 +10,16 @@ export default class multimediaService{
         const returnArray = await repo.getAllByTipoAsync(categoria);
         return returnArray;
     }
+    getCategoriasAsync = async () => {
+        const repo = new multimediaRepository();
+        const returnArray = await repo.getCategoriasAsync();
+        return returnArray;
+    }
+    getVideosAsync = async () => {
+        const repo = new multimediaRepository();
+        const returnArray = await repo.getVideosAsync();
+        return returnArray;
+    }
     getAllByVideoAsync = async (idvideo) => {
         const repo = new multimediaRepository();
         const returnArray = await repo.getAllByVideoAsync(idvideo);
@@ -30,4 +40,5 @@ export default class multimediaService{
         const returnArray = await repo.deleteByVideoAsync(idvideo);
         return returnArray;
     }
+    
 }

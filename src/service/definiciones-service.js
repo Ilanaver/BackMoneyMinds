@@ -5,6 +5,11 @@ export default class definicionesService{
         const returnArray = await repo.getTOP6Async();
         return returnArray;
     }
+    getDefinicionesAsync = async () => {
+        const repo = new definicionesRepository();
+        const returnArray = await repo.getDefinicionesAsync();
+        return returnArray;
+    }
     getSearchByNameAsync = async (titulo) => {
         const repo = new definicionesRepository();
         const returnArray = await repo.getSearchByNameAsync(titulo);

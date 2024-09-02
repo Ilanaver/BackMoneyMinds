@@ -4,6 +4,36 @@ import multimediaService from "../service/multimedia-service.js";
 
 const router = Router();
 const svc =  new multimediaService();
+router.get('', async (req, res) => {
+    let respuesta;
+    const returnArray = await svc.getCategoriasAsync();
+    console.log('entra aca')
+    if(returnArray != null)
+    {
+        console.log('normal')
+        respuesta = res.status(200).json(returnArray);
+    } else
+    {
+        console.log('se fue')
+        respuesta = res.status(500).send('Error Interno')
+    }
+    return respuesta;
+}) 
+router.get('/todos', async (req, res) => {
+    let respuesta;
+    const returnArray = await svc.getVideosAsync();
+    console.log('entra aca')
+    if(returnArray != null)
+    {
+        console.log('normal')
+        respuesta = res.status(200).json(returnArray);
+    } else
+    {
+        console.log('se fue')
+        respuesta = res.status(500).send('Error Interno')
+    }
+    return respuesta;
+}) 
 router.get('/:categoria', async (req, res) => {
     let respuesta;
     const categoria = req.params.categoria; 
