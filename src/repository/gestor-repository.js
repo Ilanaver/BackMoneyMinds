@@ -5,7 +5,7 @@ import pkg from 'pg'
 const { Client, Pool } = pkg;
 
 export default class gestorRepository {
-    getByIdAsync = async (idusuario) => {
+    getByIdAsync = async (idusuario, mes, ano) => {
         let returnArray = null;
         const client = new Client(DBConfig);
         try {
@@ -15,9 +15,9 @@ export default class gestorRepository {
             FROM gestor g
             INNER JOIN tipos t ON g.idtipos_fk = t.idtipos
             INNER JOIN subtipomovimiento s ON g.idsubtipo_fk = s.idsubtipo
-            WHERE g.idperfil_fk = $1
+            WHERE g.idperfil_fk = $1 AND EXTRACT(MONTH FROM g.fecha) = $2 AND EXTRACT(YEAR FROM g.fecha) = $3
             ORDER BY g.fecha`;
-            const values = [idusuario] 
+            const values = [idusuario, mes, ano] 
             const result = await client.query(sql,values);
             await client.end();
             returnArray = result.rows;
@@ -67,7 +67,7 @@ export default class gestorRepository {
         }
         return returnArray;
     }
-    getSaldoByIdAsync = async (idusuario) => {
+    getSaldoByIdAsync = async (idusuario, mes, ano) => {
         let returnArray = null;
         const client = new Client(DBConfig);
         try {
@@ -75,8 +75,8 @@ export default class gestorRepository {
             console.log('Connected to the database 2');
             const sql = `SELECT SUM(g.importe) as "Saldo actual"
             FROM gestor g
-            WHERE g.idperfil_fk = $1`;
-            const values = [idusuario] 
+            WHERE g.idperfil_fk = $1 AND EXTRACT(MONTH FROM g.fecha) = $2 AND EXTRACT(YEAR FROM g.fecha) = $3;`;
+            const values = [idusuario, mes, ano] 
             const result = await client.query(sql,values);
             await client.end();
             returnArray = result.rows;
@@ -85,7 +85,7 @@ export default class gestorRepository {
         }
         return returnArray;
     } 
-    getSaldoByTipoIdAsync = async (idusuario, idtipos) => {
+    getSaldoByTipoIdAsync = async (idusuario, idtipos, mes, ano) => {
         let returnArray = null;
         const client = new Client(DBConfig);
         try {
@@ -93,8 +93,8 @@ export default class gestorRepository {
             console.log('Connected to the database 2');
             const sql = `SELECT SUM(g.importe) as "Saldo actual"
             FROM gestor g
-            WHERE g.idperfil_fk = $1 AND g.idtipos_fk = $2`;
-            const values = [idusuario, idtipos] 
+            WHERE g.idperfil_fk = $1 AND g.idtipos_fk = $2 AND EXTRACT(MONTH FROM g.fecha) = $3 AND EXTRACT(YEAR FROM g.fecha) = $4;`;
+            const values = [idusuario, idtipos, mes, ano] 
             const result = await client.query(sql,values);
             await client.end();
             returnArray = result.rows;

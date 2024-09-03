@@ -1,9 +1,9 @@
 import gestorRepository from '../repository/gestor-repository.js'
 
 export default class gestorService{
-    getByIdAsync = async (idusuario) => {
+    getByIdAsync = async (idusuario, mes, ano) => {
         const repo = new gestorRepository();
-        const returnArray = await repo.getByIdAsync(idusuario);
+        const returnArray = await repo.getByIdAsync(idusuario, mes, ano);
         return returnArray;
     }
     getOppByTipoAsync = async (idusuario, idtipos) => {
@@ -11,9 +11,9 @@ export default class gestorService{
         const returnArray = await repo.getOppByTipoAsync(idusuario, idtipos);
         return returnArray;
     }
-    getSaldoByIdAsync = async (idusuario) => {
+    getSaldoByIdAsync = async (idusuario, mes, ano) => {
         const repo = new gestorRepository();
-        const returnArray = await repo.getSaldoByIdAsync(idusuario);
+        const returnArray = await repo.getSaldoByIdAsync(idusuario, mes, ano);
         return returnArray;
     }
     getSubtiposByTipoAsync = async (idtipos) => {
@@ -21,9 +21,9 @@ export default class gestorService{
         const returnArray = await repo.getSubtiposByTipoAsync(idtipos);
         return returnArray;
     }
-    getSaldoByTipoIdAsync = async (idusuario, idtipos) => {
+    getSaldoByTipoIdAsync = async (idusuario, idtipos, mes, ano) => {
         const repo = new gestorRepository();
-        const returnArray = await repo.getSaldoByTipoIdAsync(idusuario, idtipos);
+        const returnArray = await repo.getSaldoByTipoIdAsync(idusuario, idtipos, mes, ano);
         return returnArray;
     }
     addByIdAsync = async (IdPerfil, IdTipos, IdSubTipo, Importe, Fecha, Observaciones) => {

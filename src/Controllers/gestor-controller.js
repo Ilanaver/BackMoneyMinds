@@ -5,10 +5,13 @@ import Gestor from "../entities/gestor.js";
 
 const router = Router();
 const svc =  new gestorService();
-router.get('/operaciones/:idusuario', async (req, res) => {
+router.get('/operaciones/:idusuario/:mes/:ano', async (req, res) => {
     let respuesta;
     const idusuario = req.params.idusuario; 
-    const returnArray = await svc.getByIdAsync(idusuario);
+    const mes = req.params.mes; 
+    const ano = req.params.ano; 
+
+    const returnArray = await svc.getByIdAsync(idusuario, mes, ano);
     console.log('entra')
     if(returnArray != null)
     {
@@ -53,12 +56,14 @@ router.get('/operaciones/:idusuario/:idtipos', async (req, res) => {
     }
     return respuesta;
 });
-router.get('/:idusuario/:idtipos', async (req, res) => {
+router.get('/:idusuario/:idtipos/:mes/:ano', async (req, res) => {
     let respuesta;
     console.log("paso")
     const idusuario = req.params.idusuario; 
     const idtipos = req.params.idtipos;
-    const returnArray = await svc.getSaldoByTipoIdAsync(idusuario, idtipos); // Llama a la función correcta
+    const mes = req.params.mes; 
+    const ano = req.params.ano; 
+    const returnArray = await svc.getSaldoByTipoIdAsync(idusuario, idtipos, mes, ano); // Llama a la función correcta
     console.log('entra');
     if (returnArray != null) {
         console.log('normal');
@@ -69,10 +74,12 @@ router.get('/:idusuario/:idtipos', async (req, res) => {
     }
     return respuesta;
 });
-router.get('/:idusuario', async (req, res) => {
+router.get('/:idusuario/:mes/:ano', async (req, res) => {
     let respuesta;
     const idusuario = req.params.idusuario; 
-    const returnArray = await svc.getSaldoByIdAsync(idusuario);
+    const mes = req.params.mes; 
+    const ano = req.params.ano; 
+    const returnArray = await svc.getSaldoByIdAsync(idusuario, mes, ano);
     console.log('entra')
     if(returnArray != null)
     {
