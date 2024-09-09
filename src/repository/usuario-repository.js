@@ -80,5 +80,66 @@ export default class usuarioRepository {
     
         return { error: false, userId };
     };
+    getAllPerfilAsync = async (idperfil) => {
+        let returnArray = null;
+        const client = new Client(DBConfig);
+        try {
+            await client.connect();
+            console.log('Connected to the database 2');
+            const sql = `SELECT *
+            FROM perfil  
+            WHERE idperfil = $1`;
+            const values = [idperfil] 
+            const result = await client.query(sql,values);
+            await client.end();
+            returnArray = result.rows;
+        } catch (error) {
+            console.log(error);
+        }
+        return returnArray;
+    }
+    cambiarContraseñaAsync = async (idperfil, contraseñaActual, nuevaContraseña) => {
+        const client = new Client(DBConfig);
+        
+        try {
+            await client.connect();
+            
+            // 1. Verificar si el usuario existe y obtener su contraseña actual
+            const sql = 'SELECT contraseña FROM perfil WHERE idperfil = $1';
+            const values = [idperfil];
+            const result = await client.query(sql, values);
+
+            if (result.rows.length === 0) {
+                // No se encontró el usuario
+                return { error: true, message: 'Usuario no encontrado.' };
+            }
+
+            const usuario = result.rows[0];
+
+            // 2. Comparar la contraseña actual ingresada con la contraseña cifrada almacenada
+            const esValida = bcrypt.compareSync(contraseñaActual, usuario.contraseña);
+            if (!esValida) {
+                // La contraseña actual no es correcta
+                return { error: true, message: 'La contraseña actual es incorrecta.' };
+            }
+
+            // 3. Generar el hash de la nueva contraseña
+            const salt = bcrypt.genSaltSync(8);
+            const hashedNuevaContraseña = bcrypt.hashSync(nuevaContraseña, salt);
+
+            // 4. Actualizar la contraseña en la base de datos
+            const updateSql = 'UPDATE perfil SET contraseña = $1 WHERE idperfil = $2 RETURNING *';
+            const updateValues = [hashedNuevaContraseña, idperfil];
+            const updateResult = await client.query(updateSql, updateValues);
+
+            await client.end();
+
+            // Devolver el usuario actualizado
+            return { error: false, message: 'Contraseña actualizada correctamente.', data: updateResult.rows[0] };
+        } catch (error) {
+            console.log(error);
+            return { error: true, message: 'Ocurrió un error al cambiar la contraseña.' };
+        }
+    };
 
 }

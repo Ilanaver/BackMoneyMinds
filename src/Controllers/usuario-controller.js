@@ -48,4 +48,41 @@ router.post('/login', async (req, res) => {
     // Si el login fue exitoso, devolver el ID del usuario
     return res.status(200).json({ message: 'Login exitoso', userId: result.userId });
 });
+router.get('/perfil/:idperfil', async (req, res) => {
+    let respuesta;
+    const idperfil = req.params.idperfil; 
+
+    const returnArray = await svc.getAllPerfilAsync(idperfil);
+    console.log('entra')
+    if(returnArray != null)
+    {
+        console.log('normal')
+        respuesta = res.status(200).json(returnArray);
+    } else
+    {
+        console.log('else')
+        respuesta = res.status(500).send('Error Interno')
+    }
+    return respuesta;
+}) 
+router.patch('/cambiar-contrasena', async (req, res) => {
+    const { idperfil, contraseñaActual, nuevaContraseña } = req.body;
+
+    // Verificar que todos los campos estén presentes
+    if (!idperfil || !contraseñaActual || !nuevaContraseña) {
+        return res.status(400).json({ message: 'Faltan datos.' });
+    }
+
+    // Llamar al servicio para cambiar la contraseña
+    const result = await svc.cambiarContraseñaAsync(idperfil, contraseñaActual, nuevaContraseña);
+
+    if (result.error) {
+        // Si hubo un error (usuario no encontrado o contraseña actual incorrecta)
+        return res.status(400).json({ message: result.message });
+    }
+
+    // Si la contraseña fue actualizada correctamente
+    return res.status(200).json({ message: 'Contraseña cambiada exitosamente.' });
+});
+
 export default router

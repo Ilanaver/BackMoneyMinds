@@ -10,4 +10,14 @@ export default class usuarioService{
         const returnArray = await repo.loginUsuarioAsync(mail, contraseña);
         return returnArray;
     }
+    getAllPerfilAsync = async (idperfil) => {
+        const repo = new usuarioRepository();
+        const returnArray = await repo.getAllPerfilAsync(idperfil);
+        return returnArray;
+    }
+    cambiarContraseñaAsync = async (idperfil, contraseñaActual, nuevaContraseña) => {
+        const repo = new usuarioRepository();
+        const returnArray = await repo.cambiarContraseñaAsync(idperfil, contraseñaActual, nuevaContraseña);
+        return returnArray;
+    }
 }
