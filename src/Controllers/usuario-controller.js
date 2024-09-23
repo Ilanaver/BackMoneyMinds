@@ -1,6 +1,10 @@
 import {Router} from "express"
 import usuarioService from '../service/usuario-service.js'
 
+import multer from 'multer';
+
+// Configuración de multer
+const upload = multer({ dest: 'uploads/' });
 
 const router = Router();
 const svc =  new usuarioService();
@@ -85,4 +89,25 @@ router.patch('/cambiar-contrasena', async (req, res) => {
     return res.status(200).json({ message: 'Contraseña cambiada exitosamente.' });
 });
 
+router.patch('/cambiar-foto-perfil', upload.single('foto'), async (req, res) => {
+    const { idperfil } = req.body;  // Accedemos a 'idperfil' desde req.body
+    const foto = req.file;  // Accedemos al archivo subido desde req.file
+
+    // Verificar que todos los campos estén presentes
+    if (!idperfil || !foto) {
+        console.log(idperfil, foto);  // Log para debug
+        return res.status(400).json({ message: 'Faltan datos.' });
+    }
+
+    // Aquí puedes usar el archivo foto para realizar las operaciones necesarias,
+    // como guardarlo en la base de datos o moverlo a un directorio permanente.
+    
+    const result = await svc.cambiarFotoPerfilAsync(idperfil, foto);
+
+    if (result.error) {
+        return res.status(400).json({ message: result.message });
+    }
+
+    return res.status(200).json({ message: 'Foto cambiada exitosamente.' });
+});
 export default router

@@ -141,5 +141,22 @@ export default class usuarioRepository {
             return { error: true, message: 'Ocurrió un error al cambiar la contraseña.' };
         }
     };
-
+    cambiarFotoPerfilAsync = async (idperfil, foto) => {
+        let returnArray = null;
+        const client = new Client(DBConfig);
+        try {
+            await client.connect();
+            console.log('Connected to the database 2');
+            const sql = `UPDATE perfil
+            SET foto = $2
+            WHERE idperfil = $1`;
+            const values = [idperfil, foto] 
+            const result = await client.query(sql,values);
+            await client.end();
+            returnArray = result.rows;
+        } catch (error) {
+            console.log(error);
+        }
+        return returnArray;
+    };
 }

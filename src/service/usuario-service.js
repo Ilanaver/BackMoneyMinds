@@ -20,4 +20,9 @@ export default class usuarioService{
         const returnArray = await repo.cambiarContraseñaAsync(idperfil, contraseñaActual, nuevaContraseña);
         return returnArray;
     }
+    cambiarFotoPerfilAsync = async (idperfil, foto) => {
+        const repo = new usuarioRepository();
+        const returnArray = await repo.cambiarFotoPerfilAsync(idperfil, foto);
+        return returnArray;
+    }
 }
