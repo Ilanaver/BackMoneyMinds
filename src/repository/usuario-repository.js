@@ -146,17 +146,15 @@ export default class usuarioRepository {
         const client = new Client(DBConfig);
         try {
             await client.connect();
-            console.log('Connected to the database 2');
-            const sql = `UPDATE perfil
-            SET foto = $2
-            WHERE idperfil = $1`;
-            const values = [idperfil, foto] 
-            const result = await client.query(sql,values);
+            const sql = `UPDATE perfil SET foto = $2 WHERE idperfil = $1 RETURNING *`;
+            const values = [idperfil, foto];  // Actualizamos el campo "foto" con la URL
+            const result = await client.query(sql, values);
             await client.end();
-            returnArray = result.rows;
+            returnArray = result.rows[0];  // Devolver el perfil actualizado
         } catch (error) {
             console.log(error);
         }
         return returnArray;
     };
+    
 }
