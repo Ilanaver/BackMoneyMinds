@@ -25,4 +25,9 @@ export default class usuarioService{
         const returnArray = await repo.cambiarFotoPerfilAsync(idperfil, foto);
         return returnArray;
     }
+    RecuperarContrasenaAsync = async (mail) => {
+        const repo = new usuarioRepository();
+        const returnArray = await repo.RecuperarContrasenaAsync(mail);
+        return returnArray;
+    }
 }

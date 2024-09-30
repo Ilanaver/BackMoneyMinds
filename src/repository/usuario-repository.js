@@ -156,5 +156,26 @@ export default class usuarioRepository {
         }
         return returnArray;
     };
+    RecuperarContrasenaAsync = async (mail) => {
+        let returnArray = null;
+        const client = new Client(DBConfig); // Asegúrate de tener la configuración de tu base de datos aquí
+        try {
+            await client.connect();
+            console.log('Connected to the database');
+    
+            // Consulta para buscar el userId según el correo electrónico
+            const sql = `SELECT idperfil FROM perfil WHERE mail = $1`;
+            const values = [mail];
+            
+            const result = await client.query(sql, values);
+            await client.end();
+            
+            returnArray = result.rows; // Almacena los resultados de la consulta
+        } catch (error) {
+            console.log('Error al buscar el usuario por correo:', error);
+        }
+        return returnArray; // Devuelve los resultados encontrados
+    };
+    
     
 }

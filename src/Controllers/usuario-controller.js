@@ -84,5 +84,16 @@ router.patch('/cambiar-foto-perfil', async (req, res) => {
 
     return res.status(200).json({ message: 'Foto cambiada exitosamente.' });
 });
+router.get('/recuperar-contrasena/:mail', async (req, res) => {
+    let respuesta;
+    const mail = req.params.mail;
 
+    const returnArray = await svc.RecuperarContrasenaAsync(mail);
+    if (returnArray != null) {
+        respuesta = res.status(200).json(returnArray);
+    } else {
+        respuesta = res.status(500).send('Error Interno');
+    }
+    return respuesta;
+});
 export default router;
