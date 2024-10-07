@@ -11,17 +11,28 @@ router.post('/registro', async (req, res) => {
         "mail": mail,
         "contraseña": contraseña
     };
+
+    // Verificar que no falten datos
     if (!usuario || !mail || !contraseña) {
-        res.status(400).json({ message: 'Faltan datos.', agregado });
-    } else {
-        const result = await svc.addUsuarioAsync(usuario, mail, contraseña);
-        if (result?.error) {
-            // Si el correo ya está registrado, devolvemos un error
-            return res.status(400).json({ message: result.message });
-        }
-        res.status(201).json({ message: 'Se agregó correctamente.', agregado });
+        return res.status(400).json({ message: 'Faltan datos.', agregado });
+    } 
+
+    // Llamar a la función que maneja la inserción de usuario
+    const result = await svc.addUsuarioAsync(usuario, mail, contraseña);
+
+    if (result?.error) {
+        // Si hay un error (como el correo ya registrado), devolver el mensaje de error
+        return res.status(400).json({ message: result.message });
     }
+
+    // Si la inserción fue exitosa, devolver el idperfil
+    return res.status(201).json({ 
+        message: 'Se agregó correctamente.', 
+        idperfil: result.idperfil, // Devolver el idperfil al frontend
+        agregado 
+    });
 });
+
 
 router.post('/login', async (req, res) => {
     const { mail, contraseña } = req.body;

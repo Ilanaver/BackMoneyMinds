@@ -9,39 +9,40 @@ export default class usuarioRepository {
     addUsuarioAsync = async (usuario, mail, contraseña) => {
         let returnArray = null;
         const client = new Client(DBConfig);
-        
+    
         try {
             await client.connect();
-
+    
             // 1. Verificar si el correo ya existe
             const checkUserSql = 'SELECT * FROM perfil WHERE mail = $1';
             const checkUserValues = [mail];
             const checkResult = await client.query(checkUserSql, checkUserValues);
-
+    
             if (checkResult.rows.length > 0) {
                 // El correo ya está registrado
                 return { error: true, message: 'El correo ya está registrado' };
             }
-
+    
             // 2. Si el correo no existe, proceder con el registro
             const salt = bcrypt.genSaltSync(8); // Generar un salt para cifrar la contraseña
             const hashedPassword = bcrypt.hashSync(contraseña, salt); // Cifrar la contraseña
-
+    
             const sql = `INSERT INTO perfil (usuario, mail, contraseña)
-                        VALUES ($1, $2, $3) RETURNING *`; // Devolver el usuario insertado
+                        VALUES ($1, $2, $3) RETURNING idperfil`; // Devolver el idperfil insertado
             const values = [usuario, mail, hashedPassword];
             const result = await client.query(sql, values);
-
+    
             console.log('Data inserted successfully');
-            returnArray = result.rows[0]; // Devolver el usuario insertado
-
+            returnArray = result.rows[0]; // Esto devolverá el idperfil
+    
             await client.end();
         } catch (error) {
             console.log(error);
         }
-        
+    
         return returnArray;
     };
+    
     loginUsuarioAsync = async (mail, contraseña) => {
         let userId = null;
         const client = new Client(DBConfig);
@@ -176,6 +177,69 @@ export default class usuarioRepository {
         }
         return returnArray; // Devuelve los resultados encontrados
     };
-    
+    async recuperarContrasenaAsync(mail) {
+        await this.client.connect();
+
+        // Verificar si el usuario existe
+        const result = await this.client.query('SELECT idperfil FROM perfil WHERE mail = $1', [mail]);
+        if (result.rows.length === 0) {
+            return { error: true, message: 'El correo no está registrado.' };
+        }
+
+        const userId = result.rows[0].idperfil;
+
+        // Generar un token de restablecimiento
+        const { token, expires } = this.generateResetToken();
+        await this.saveResetToken(userId, token, expires);
+
+        // Enviar el correo con el enlace de restablecimiento
+        await this.sendResetEmail(mail, token);
+
+        return { message: 'Se ha enviado un correo para restablecer la contraseña.' };
+    }
+
+    generateResetToken() {
+        const token = crypto.randomBytes(32).toString('hex'); // Token de 32 bytes
+        const expires = Date.now() + 3600000; // 1 hora de validez
+        return { token, expires };
+    }
+
+    async saveResetToken(userId, token, expires) {
+        const hashedToken = bcrypt.hashSync(token, 8); // Hashear el token
+        await this.client.query('UPDATE perfil SET reset_token = $1, reset_token_expiry = $2 WHERE idperfil = $3', [hashedToken, expires, userId]);
+    }
+
+    async sendResetEmail(email, token) {
+        const resetUrl = `http://localhost:3000/reset-password/${token}`;
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'tuemail@gmail.com',
+                pass: 'tucontraseña'
+            }
+        });
+
+        const mailOptions = {
+            from: 'no-reply@tuapp.com',
+            to: email,
+            subject: 'Restablecimiento de contraseña',
+            text: `Haz clic en el siguiente enlace para restablecer tu contraseña: ${resetUrl}`,
+            html: `<p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p><a href="${resetUrl}">Restablecer contraseña</a>`
+        };
+
+        await transporter.sendMail(mailOptions);
+    }
+
+    async validarResetToken(token) {
+        const hashedToken = bcrypt.hashSync(token, 8);
+        const result = await this.client.query('SELECT * FROM perfil WHERE reset_token = $1 AND reset_token_expiry > $2', [hashedToken, Date.now()]);
+        return result.rows.length > 0 ? result.rows[0] : null;
+    }
+
+    async actualizarContraseña(idperfil, nuevaContraseña) {
+        const salt = bcrypt.genSaltSync(8);
+        const hashedPassword = bcrypt.hashSync(nuevaContraseña, salt);
+        await this.client.query('UPDATE perfil SET contraseña = $1, reset_token = null, reset_token_expiry = null WHERE idperfil = $2', [hashedPassword, idperfil]);
+    }
     
 }
