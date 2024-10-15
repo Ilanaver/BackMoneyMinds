@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.3
--- Dumped by pg_dump version 16.3
+-- Dumped from database version 16.2
+-- Dumped by pg_dump version 16.0
 
--- Started on 2024-07-15 21:08:09
+-- Started on 2024-10-15 14:33:12
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,7 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 6 (class 2615 OID 16522)
+-- TOC entry 6 (class 2615 OID 2200)
 -- Name: public; Type: SCHEMA; Schema: -; Owner: pg_database_owner
 --
 
@@ -29,7 +29,7 @@ CREATE SCHEMA public;
 ALTER SCHEMA public OWNER TO pg_database_owner;
 
 --
--- TOC entry 4913 (class 0 OID 0)
+-- TOC entry 4871 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
 --
@@ -38,7 +38,7 @@ COMMENT ON SCHEMA public IS 'standard public schema';
 
 
 --
--- TOC entry 230 (class 1255 OID 16523)
+-- TOC entry 232 (class 1255 OID 16398)
 -- Name: addoperaciones(integer, integer, integer, integer, integer, timestamp without time zone, character varying); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -55,7 +55,7 @@ $$;
 ALTER FUNCTION public.addoperaciones(idperfil integer, monto integer, idtipos integer, idsubtipo integer, importe integer, fecha timestamp without time zone, observaciones character varying) OWNER TO postgres;
 
 --
--- TOC entry 231 (class 1255 OID 16524)
+-- TOC entry 233 (class 1255 OID 16399)
 -- Name: buscardefiniciones(character varying); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -75,7 +75,7 @@ $$;
 ALTER FUNCTION public.buscardefiniciones(terminobuscado character varying) OWNER TO postgres;
 
 --
--- TOC entry 232 (class 1255 OID 16525)
+-- TOC entry 234 (class 1255 OID 16400)
 -- Name: deloperacion(integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -91,7 +91,7 @@ $$;
 ALTER FUNCTION public.deloperacion(idgestor integer) OWNER TO postgres;
 
 --
--- TOC entry 233 (class 1255 OID 16526)
+-- TOC entry 235 (class 1255 OID 16401)
 -- Name: showdefiniciones(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -108,7 +108,7 @@ $$;
 ALTER FUNCTION public.showdefiniciones() OWNER TO postgres;
 
 --
--- TOC entry 234 (class 1255 OID 16527)
+-- TOC entry 236 (class 1255 OID 16402)
 -- Name: showoperaciones(integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -125,7 +125,7 @@ $$;
 ALTER FUNCTION public.showoperaciones(idperfil integer) OWNER TO postgres;
 
 --
--- TOC entry 235 (class 1255 OID 16528)
+-- TOC entry 237 (class 1255 OID 16403)
 -- Name: showvideos(character varying); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -146,7 +146,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 216 (class 1259 OID 16529)
+-- TOC entry 216 (class 1259 OID 16404)
 -- Name: asesor; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -161,7 +161,7 @@ CREATE TABLE public.asesor (
 ALTER TABLE public.asesor OWNER TO postgres;
 
 --
--- TOC entry 217 (class 1259 OID 16534)
+-- TOC entry 217 (class 1259 OID 16409)
 -- Name: asesor_idasesor_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -177,7 +177,7 @@ CREATE SEQUENCE public.asesor_idasesor_seq
 ALTER SEQUENCE public.asesor_idasesor_seq OWNER TO postgres;
 
 --
--- TOC entry 4915 (class 0 OID 0)
+-- TOC entry 4873 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: asesor_idasesor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -186,7 +186,7 @@ ALTER SEQUENCE public.asesor_idasesor_seq OWNED BY public.asesor.idasesor;
 
 
 --
--- TOC entry 218 (class 1259 OID 16535)
+-- TOC entry 218 (class 1259 OID 16410)
 -- Name: contenidoaudiovisual; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -203,7 +203,7 @@ CREATE TABLE public.contenidoaudiovisual (
 ALTER TABLE public.contenidoaudiovisual OWNER TO postgres;
 
 --
--- TOC entry 219 (class 1259 OID 16540)
+-- TOC entry 219 (class 1259 OID 16415)
 -- Name: contenidoaudiovisual_idvideo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -219,7 +219,7 @@ CREATE SEQUENCE public.contenidoaudiovisual_idvideo_seq
 ALTER SEQUENCE public.contenidoaudiovisual_idvideo_seq OWNER TO postgres;
 
 --
--- TOC entry 4916 (class 0 OID 0)
+-- TOC entry 4874 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: contenidoaudiovisual_idvideo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -228,7 +228,7 @@ ALTER SEQUENCE public.contenidoaudiovisual_idvideo_seq OWNED BY public.contenido
 
 
 --
--- TOC entry 220 (class 1259 OID 16541)
+-- TOC entry 220 (class 1259 OID 16416)
 -- Name: definicionterminos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -243,7 +243,7 @@ CREATE TABLE public.definicionterminos (
 ALTER TABLE public.definicionterminos OWNER TO postgres;
 
 --
--- TOC entry 221 (class 1259 OID 16546)
+-- TOC entry 221 (class 1259 OID 16421)
 -- Name: definicionterminos_idtermino_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -259,7 +259,7 @@ CREATE SEQUENCE public.definicionterminos_idtermino_seq
 ALTER SEQUENCE public.definicionterminos_idtermino_seq OWNER TO postgres;
 
 --
--- TOC entry 4917 (class 0 OID 0)
+-- TOC entry 4875 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: definicionterminos_idtermino_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -268,7 +268,7 @@ ALTER SEQUENCE public.definicionterminos_idtermino_seq OWNED BY public.definicio
 
 
 --
--- TOC entry 222 (class 1259 OID 16547)
+-- TOC entry 222 (class 1259 OID 16422)
 -- Name: gestor; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -286,7 +286,7 @@ CREATE TABLE public.gestor (
 ALTER TABLE public.gestor OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1259 OID 16550)
+-- TOC entry 223 (class 1259 OID 16425)
 -- Name: gestor_idgestor_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -302,7 +302,7 @@ CREATE SEQUENCE public.gestor_idgestor_seq
 ALTER SEQUENCE public.gestor_idgestor_seq OWNER TO postgres;
 
 --
--- TOC entry 4918 (class 0 OID 0)
+-- TOC entry 4876 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: gestor_idgestor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -311,18 +311,59 @@ ALTER SEQUENCE public.gestor_idgestor_seq OWNED BY public.gestor.idgestor;
 
 
 --
--- TOC entry 224 (class 1259 OID 16551)
+-- TOC entry 231 (class 1259 OID 16491)
+-- Name: lecciondiaria; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.lecciondiaria (
+    idleccion integer NOT NULL,
+    idperfil_fk integer NOT NULL,
+    titulo character varying(100) NOT NULL,
+    descripcion character varying(500),
+    contenido text NOT NULL,
+    fecha timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.lecciondiaria OWNER TO postgres;
+
+--
+-- TOC entry 230 (class 1259 OID 16490)
+-- Name: lecciondiaria_idleccion_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.lecciondiaria_idleccion_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.lecciondiaria_idleccion_seq OWNER TO postgres;
+
+--
+-- TOC entry 4877 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: lecciondiaria_idleccion_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.lecciondiaria_idleccion_seq OWNED BY public.lecciondiaria.idleccion;
+
+
+--
+-- TOC entry 224 (class 1259 OID 16426)
 -- Name: perfil; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.perfil (
     idperfil integer NOT NULL,
-    admin boolean NOT NULL,
-    nombre character varying(50) NOT NULL,
-    apellido character varying(50),
-    foto character varying(250),
-    mail character varying(50) NOT NULL,
-    "contraseña" character varying(50) NOT NULL,
+    admin boolean DEFAULT false NOT NULL,
+    usuario character varying(50) NOT NULL,
+    foto character varying(1250),
+    mail character varying(80) NOT NULL,
+    "contraseña" character varying(550) NOT NULL,
     pasatiempo character varying(50),
     conocimiento character varying(50),
     ultactividad character varying(50)
@@ -332,7 +373,7 @@ CREATE TABLE public.perfil (
 ALTER TABLE public.perfil OWNER TO postgres;
 
 --
--- TOC entry 225 (class 1259 OID 16556)
+-- TOC entry 225 (class 1259 OID 16432)
 -- Name: perfil_idperfil_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -348,7 +389,7 @@ CREATE SEQUENCE public.perfil_idperfil_seq
 ALTER SEQUENCE public.perfil_idperfil_seq OWNER TO postgres;
 
 --
--- TOC entry 4919 (class 0 OID 0)
+-- TOC entry 4878 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: perfil_idperfil_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -357,7 +398,7 @@ ALTER SEQUENCE public.perfil_idperfil_seq OWNED BY public.perfil.idperfil;
 
 
 --
--- TOC entry 226 (class 1259 OID 16557)
+-- TOC entry 226 (class 1259 OID 16433)
 -- Name: subtipomovimiento; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -371,7 +412,7 @@ CREATE TABLE public.subtipomovimiento (
 ALTER TABLE public.subtipomovimiento OWNER TO postgres;
 
 --
--- TOC entry 227 (class 1259 OID 16560)
+-- TOC entry 227 (class 1259 OID 16436)
 -- Name: subtipomovimiento_idsubtipo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -387,7 +428,7 @@ CREATE SEQUENCE public.subtipomovimiento_idsubtipo_seq
 ALTER SEQUENCE public.subtipomovimiento_idsubtipo_seq OWNER TO postgres;
 
 --
--- TOC entry 4920 (class 0 OID 0)
+-- TOC entry 4879 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: subtipomovimiento_idsubtipo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -396,7 +437,7 @@ ALTER SEQUENCE public.subtipomovimiento_idsubtipo_seq OWNED BY public.subtipomov
 
 
 --
--- TOC entry 228 (class 1259 OID 16561)
+-- TOC entry 228 (class 1259 OID 16437)
 -- Name: tipos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -409,7 +450,7 @@ CREATE TABLE public.tipos (
 ALTER TABLE public.tipos OWNER TO postgres;
 
 --
--- TOC entry 229 (class 1259 OID 16564)
+-- TOC entry 229 (class 1259 OID 16440)
 -- Name: tipos_idtipos_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -425,7 +466,7 @@ CREATE SEQUENCE public.tipos_idtipos_seq
 ALTER SEQUENCE public.tipos_idtipos_seq OWNER TO postgres;
 
 --
--- TOC entry 4921 (class 0 OID 0)
+-- TOC entry 4880 (class 0 OID 0)
 -- Dependencies: 229
 -- Name: tipos_idtipos_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -434,7 +475,7 @@ ALTER SEQUENCE public.tipos_idtipos_seq OWNED BY public.tipos.idtipos;
 
 
 --
--- TOC entry 4725 (class 2604 OID 16565)
+-- TOC entry 4676 (class 2604 OID 16441)
 -- Name: asesor idasesor; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -442,7 +483,7 @@ ALTER TABLE ONLY public.asesor ALTER COLUMN idasesor SET DEFAULT nextval('public
 
 
 --
--- TOC entry 4726 (class 2604 OID 16566)
+-- TOC entry 4677 (class 2604 OID 16442)
 -- Name: contenidoaudiovisual idvideo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -450,7 +491,7 @@ ALTER TABLE ONLY public.contenidoaudiovisual ALTER COLUMN idvideo SET DEFAULT ne
 
 
 --
--- TOC entry 4727 (class 2604 OID 16567)
+-- TOC entry 4678 (class 2604 OID 16443)
 -- Name: definicionterminos idtermino; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -458,7 +499,7 @@ ALTER TABLE ONLY public.definicionterminos ALTER COLUMN idtermino SET DEFAULT ne
 
 
 --
--- TOC entry 4728 (class 2604 OID 16568)
+-- TOC entry 4679 (class 2604 OID 16444)
 -- Name: gestor idgestor; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -466,7 +507,15 @@ ALTER TABLE ONLY public.gestor ALTER COLUMN idgestor SET DEFAULT nextval('public
 
 
 --
--- TOC entry 4729 (class 2604 OID 16569)
+-- TOC entry 4684 (class 2604 OID 16494)
+-- Name: lecciondiaria idleccion; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.lecciondiaria ALTER COLUMN idleccion SET DEFAULT nextval('public.lecciondiaria_idleccion_seq'::regclass);
+
+
+--
+-- TOC entry 4680 (class 2604 OID 16445)
 -- Name: perfil idperfil; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -474,7 +523,7 @@ ALTER TABLE ONLY public.perfil ALTER COLUMN idperfil SET DEFAULT nextval('public
 
 
 --
--- TOC entry 4730 (class 2604 OID 16570)
+-- TOC entry 4682 (class 2604 OID 16446)
 -- Name: subtipomovimiento idsubtipo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -482,7 +531,7 @@ ALTER TABLE ONLY public.subtipomovimiento ALTER COLUMN idsubtipo SET DEFAULT nex
 
 
 --
--- TOC entry 4731 (class 2604 OID 16571)
+-- TOC entry 4683 (class 2604 OID 16447)
 -- Name: tipos idtipos; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -490,20 +539,15 @@ ALTER TABLE ONLY public.tipos ALTER COLUMN idtipos SET DEFAULT nextval('public.t
 
 
 --
--- TOC entry 4894 (class 0 OID 16529)
+-- TOC entry 4850 (class 0 OID 16404)
 -- Dependencies: 216
 -- Data for Name: asesor; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.asesor VALUES (1, 1, 'Consulta sobre el uso de SQL en bases de datos.', '2024-07-01 10:00:00');
-INSERT INTO public.asesor VALUES (2, 2, 'Necesito ayuda con un script en Python.', '2024-07-02 11:00:00');
-INSERT INTO public.asesor VALUES (3, 3, '¿Cómo puedo optimizar consultas SQL?', '2024-07-03 12:00:00');
-INSERT INTO public.asesor VALUES (4, 4, 'Recomendaciones para aprender Machine Learning.', '2024-07-04 13:00:00');
-INSERT INTO public.asesor VALUES (5, 5, 'Problemas al conectar a la base de datos.', '2024-07-05 14:00:00');
 
 
 --
--- TOC entry 4896 (class 0 OID 16535)
+-- TOC entry 4852 (class 0 OID 16410)
 -- Dependencies: 218
 -- Data for Name: contenidoaudiovisual; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -522,11 +566,12 @@ INSERT INTO public.contenidoaudiovisual VALUES (21, 'Impuestos sobre Inversiones
 INSERT INTO public.contenidoaudiovisual VALUES (22, 'Reducción de Impuestos Legales', 'http://example.com/reduccion-impuestos', 'reduccion-impuestos.jpg', 'Métodos legales para reducir tus impuestos.', 'Impuestos');
 INSERT INTO public.contenidoaudiovisual VALUES (23, 'Impuestos y Ahorro', 'http://example.com/impuestos-ahorro', 'impuestos-ahorro.jpg', 'La relación entre los impuestos y el ahorro.', 'Impuestos');
 INSERT INTO public.contenidoaudiovisual VALUES (24, 'Ahorro e Inversiones para Principiantes', 'http://example.com/ahorro-inversiones', 'ahorro-inversiones.jpg', 'Guía básica para comenzar a ahorrar e invertir.', 'Ahorro');
-INSERT INTO public.contenidoaudiovisual VALUES (25, 'Ahorro para la Educación', 'http://example.com/ahorro-educacion', 'ahorro-educacion.jpg', 'Cómo ahorrar para la educación de tus hijos.', 'Ahorro');
+INSERT INTO public.contenidoaudiovisual VALUES (26, 'Video del toro', 'no lo tengo', 'img.jpg', '', 'Inversiones');
+INSERT INTO public.contenidoaudiovisual VALUES (27, 'Video del toro', 'no lo tengo', 'img.jpg', 'esta vez con descripcion', 'Inversiones');
 
 
 --
--- TOC entry 4898 (class 0 OID 16541)
+-- TOC entry 4854 (class 0 OID 16416)
 -- Dependencies: 220
 -- Data for Name: definicionterminos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -544,47 +589,73 @@ INSERT INTO public.definicionterminos VALUES (10, 'Cocina Italiana', 'La cocina 
 
 
 --
--- TOC entry 4900 (class 0 OID 16547)
+-- TOC entry 4856 (class 0 OID 16422)
 -- Dependencies: 222
 -- Data for Name: gestor; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.gestor VALUES (1, 1, 1, 1, 1000, '2024-07-01 10:00:00', 'Primera observación');
-INSERT INTO public.gestor VALUES (2, 2, 2, 2, 2000, '2024-07-02 11:00:00', 'Segunda observación');
-INSERT INTO public.gestor VALUES (3, 3, 3, 3, 3000, '2024-07-03 12:00:00', 'Tercera observación');
-INSERT INTO public.gestor VALUES (4, 2, 1, 4, -4000, '2024-07-07 00:00:00', 'Mcdonals');
-INSERT INTO public.gestor VALUES (5, 2, 2, 2, 10000, '2024-02-02 00:00:00', 'cobre el aguinaldo');
-INSERT INTO public.gestor VALUES (6, 2, 2, 2, 10000, '2024-02-02 00:00:00', 'cobre el aguinaldo');
-INSERT INTO public.gestor VALUES (7, 2, 2, 2, 10000, '2024-02-02 00:00:00', 'cobre el aguinaldo v3');
+INSERT INTO public.gestor VALUES (35, 15, 2, 15, 10000, '2024-10-08 00:00:00', 'g');
 
 
 --
--- TOC entry 4902 (class 0 OID 16551)
+-- TOC entry 4865 (class 0 OID 16491)
+-- Dependencies: 231
+-- Data for Name: lecciondiaria; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 4858 (class 0 OID 16426)
 -- Dependencies: 224
 -- Data for Name: perfil; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.perfil VALUES (2, false, 'Maria', 'Garcia', 'foto2.jpg', 'maria.garcia@example.com', 'password2', 'Cocinar', 'Python', 'Script Python');
-INSERT INTO public.perfil VALUES (4, false, 'Ana', 'Martinez', 'foto4.jpg', 'ana.martinez@example.com', 'password4', 'Deporte', 'Bases de Datos', 'Conexión BD');
-INSERT INTO public.perfil VALUES (1, true, 'Juan', 'Perez', 'foto1.jpg', 'juan.perez@example.com', 'password1', NULL, NULL, NULL);
-INSERT INTO public.perfil VALUES (3, true, 'Carlos', 'Lopez', 'foto3.jpg', 'carlos.lopez@example.com', 'password3', NULL, NULL, NULL);
-INSERT INTO public.perfil VALUES (5, true, 'Luis', 'Hernandez', 'foto5.jpg', 'luis.hernandez@example.com', 'password5', NULL, NULL, NULL);
+INSERT INTO public.perfil VALUES (15, false, 'Toro', NULL, 'prueba1@gmail.com', '$2a$08$krtbVkhiDaH0AHiqQQtEGu2.GApJTNCnDWJVv5m27bmiK357/6RUC', NULL, NULL, NULL);
+INSERT INTO public.perfil VALUES (16, false, 'Toro', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg2maSbfWrSHxL6Nqt7VM2Eop78heVMKwRyg&s', 'prueba@gmail.com', '$2a$08$VOLW/sGYbW1/Xw.oAwruF.qlBdcJdkVbu2fKamwaylHTvl9w9cTq6', NULL, NULL, NULL);
 
 
 --
--- TOC entry 4904 (class 0 OID 16557)
+-- TOC entry 4860 (class 0 OID 16433)
 -- Dependencies: 226
 -- Data for Name: subtipomovimiento; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO public.subtipomovimiento VALUES (1, 1, 'Impuestos');
-INSERT INTO public.subtipomovimiento VALUES (2, 2, 'Sueldo');
-INSERT INTO public.subtipomovimiento VALUES (3, 3, 'Sueldo');
-INSERT INTO public.subtipomovimiento VALUES (4, 1, 'Comida');
+INSERT INTO public.subtipomovimiento VALUES (5, 1, 'Comida');
+INSERT INTO public.subtipomovimiento VALUES (6, 1, 'Amigos');
+INSERT INTO public.subtipomovimiento VALUES (7, 1, 'Transporte');
+INSERT INTO public.subtipomovimiento VALUES (8, 1, 'Salud');
+INSERT INTO public.subtipomovimiento VALUES (9, 1, 'Entretenimiento');
+INSERT INTO public.subtipomovimiento VALUES (10, 1, 'Educación');
+INSERT INTO public.subtipomovimiento VALUES (11, 1, 'Vivienda');
+INSERT INTO public.subtipomovimiento VALUES (12, 1, 'Ropa');
+INSERT INTO public.subtipomovimiento VALUES (13, 1, 'Viajes');
+INSERT INTO public.subtipomovimiento VALUES (14, 1, 'Deportes');
+INSERT INTO public.subtipomovimiento VALUES (15, 2, 'Salario');
+INSERT INTO public.subtipomovimiento VALUES (16, 2, 'Bonos');
+INSERT INTO public.subtipomovimiento VALUES (17, 2, 'Intereses');
+INSERT INTO public.subtipomovimiento VALUES (18, 2, 'Dividendos');
+INSERT INTO public.subtipomovimiento VALUES (19, 2, 'Alquileres');
+INSERT INTO public.subtipomovimiento VALUES (20, 2, 'Ventas');
+INSERT INTO public.subtipomovimiento VALUES (21, 2, 'Regalos');
+INSERT INTO public.subtipomovimiento VALUES (22, 2, 'Lotería');
+INSERT INTO public.subtipomovimiento VALUES (23, 2, 'Inversiones');
+INSERT INTO public.subtipomovimiento VALUES (24, 2, 'Otros');
+INSERT INTO public.subtipomovimiento VALUES (25, 3, 'Cuenta de Ahorro');
+INSERT INTO public.subtipomovimiento VALUES (26, 3, 'Fondo de Emergencia');
+INSERT INTO public.subtipomovimiento VALUES (27, 3, 'Ahorro para la Educación');
+INSERT INTO public.subtipomovimiento VALUES (28, 3, 'Ahorro para la Jubilación');
+INSERT INTO public.subtipomovimiento VALUES (29, 3, 'Ahorro para Viajes');
+INSERT INTO public.subtipomovimiento VALUES (30, 3, 'Ahorro para Compra de Vivienda');
+INSERT INTO public.subtipomovimiento VALUES (31, 3, 'Ahorro para Eventos Especiales');
+INSERT INTO public.subtipomovimiento VALUES (32, 3, 'Inversiones a Largo Plazo');
+INSERT INTO public.subtipomovimiento VALUES (33, 3, 'Ahorro para Vehículo');
+INSERT INTO public.subtipomovimiento VALUES (34, 3, 'Ahorro para Salud');
 
 
 --
--- TOC entry 4906 (class 0 OID 16561)
+-- TOC entry 4862 (class 0 OID 16437)
 -- Dependencies: 228
 -- Data for Name: tipos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -595,7 +666,7 @@ INSERT INTO public.tipos VALUES (3, 'Ahorro');
 
 
 --
--- TOC entry 4922 (class 0 OID 0)
+-- TOC entry 4881 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: asesor_idasesor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -604,16 +675,16 @@ SELECT pg_catalog.setval('public.asesor_idasesor_seq', 1, false);
 
 
 --
--- TOC entry 4923 (class 0 OID 0)
+-- TOC entry 4882 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: contenidoaudiovisual_idvideo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.contenidoaudiovisual_idvideo_seq', 25, true);
+SELECT pg_catalog.setval('public.contenidoaudiovisual_idvideo_seq', 27, true);
 
 
 --
--- TOC entry 4924 (class 0 OID 0)
+-- TOC entry 4883 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: definicionterminos_idtermino_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -622,34 +693,43 @@ SELECT pg_catalog.setval('public.definicionterminos_idtermino_seq', 10, true);
 
 
 --
--- TOC entry 4925 (class 0 OID 0)
+-- TOC entry 4884 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: gestor_idgestor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.gestor_idgestor_seq', 7, true);
+SELECT pg_catalog.setval('public.gestor_idgestor_seq', 35, true);
 
 
 --
--- TOC entry 4926 (class 0 OID 0)
+-- TOC entry 4885 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: lecciondiaria_idleccion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.lecciondiaria_idleccion_seq', 1, false);
+
+
+--
+-- TOC entry 4886 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: perfil_idperfil_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.perfil_idperfil_seq', 1, false);
+SELECT pg_catalog.setval('public.perfil_idperfil_seq', 16, true);
 
 
 --
--- TOC entry 4927 (class 0 OID 0)
+-- TOC entry 4887 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: subtipomovimiento_idsubtipo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.subtipomovimiento_idsubtipo_seq', 2, true);
+SELECT pg_catalog.setval('public.subtipomovimiento_idsubtipo_seq', 34, true);
 
 
 --
--- TOC entry 4928 (class 0 OID 0)
+-- TOC entry 4888 (class 0 OID 0)
 -- Dependencies: 229
 -- Name: tipos_idtipos_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -658,7 +738,7 @@ SELECT pg_catalog.setval('public.tipos_idtipos_seq', 1, false);
 
 
 --
--- TOC entry 4733 (class 2606 OID 16573)
+-- TOC entry 4686 (class 2606 OID 16449)
 -- Name: asesor asesor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -667,7 +747,7 @@ ALTER TABLE ONLY public.asesor
 
 
 --
--- TOC entry 4735 (class 2606 OID 16575)
+-- TOC entry 4688 (class 2606 OID 16451)
 -- Name: contenidoaudiovisual contenidoaudiovisual_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -676,7 +756,7 @@ ALTER TABLE ONLY public.contenidoaudiovisual
 
 
 --
--- TOC entry 4737 (class 2606 OID 16577)
+-- TOC entry 4690 (class 2606 OID 16453)
 -- Name: definicionterminos definicionterminos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -685,7 +765,7 @@ ALTER TABLE ONLY public.definicionterminos
 
 
 --
--- TOC entry 4739 (class 2606 OID 16579)
+-- TOC entry 4692 (class 2606 OID 16455)
 -- Name: gestor gestor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -694,7 +774,16 @@ ALTER TABLE ONLY public.gestor
 
 
 --
--- TOC entry 4741 (class 2606 OID 16581)
+-- TOC entry 4700 (class 2606 OID 16498)
+-- Name: lecciondiaria lecciondiaria_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.lecciondiaria
+    ADD CONSTRAINT lecciondiaria_pkey PRIMARY KEY (idleccion);
+
+
+--
+-- TOC entry 4694 (class 2606 OID 16457)
 -- Name: perfil perfil_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -703,7 +792,7 @@ ALTER TABLE ONLY public.perfil
 
 
 --
--- TOC entry 4743 (class 2606 OID 16583)
+-- TOC entry 4696 (class 2606 OID 16459)
 -- Name: subtipomovimiento subtipomovimiento_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -712,7 +801,7 @@ ALTER TABLE ONLY public.subtipomovimiento
 
 
 --
--- TOC entry 4745 (class 2606 OID 16585)
+-- TOC entry 4698 (class 2606 OID 16461)
 -- Name: tipos tipos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -721,7 +810,7 @@ ALTER TABLE ONLY public.tipos
 
 
 --
--- TOC entry 4746 (class 2606 OID 16586)
+-- TOC entry 4701 (class 2606 OID 16462)
 -- Name: asesor fk_asesor_perfil; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -730,7 +819,7 @@ ALTER TABLE ONLY public.asesor
 
 
 --
--- TOC entry 4747 (class 2606 OID 16591)
+-- TOC entry 4702 (class 2606 OID 16467)
 -- Name: gestor fk_gestor_perfil; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -739,7 +828,7 @@ ALTER TABLE ONLY public.gestor
 
 
 --
--- TOC entry 4748 (class 2606 OID 16596)
+-- TOC entry 4703 (class 2606 OID 16472)
 -- Name: gestor fk_gestor_subtipomovimiento; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -748,7 +837,7 @@ ALTER TABLE ONLY public.gestor
 
 
 --
--- TOC entry 4749 (class 2606 OID 16601)
+-- TOC entry 4704 (class 2606 OID 16477)
 -- Name: gestor fk_gestor_tipos; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -757,7 +846,16 @@ ALTER TABLE ONLY public.gestor
 
 
 --
--- TOC entry 4750 (class 2606 OID 16606)
+-- TOC entry 4706 (class 2606 OID 16499)
+-- Name: lecciondiaria fk_lecciondiaria_perfil; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.lecciondiaria
+    ADD CONSTRAINT fk_lecciondiaria_perfil FOREIGN KEY (idperfil_fk) REFERENCES public.perfil(idperfil);
+
+
+--
+-- TOC entry 4705 (class 2606 OID 16482)
 -- Name: subtipomovimiento fk_subtipomovimiento_tipos; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -766,7 +864,7 @@ ALTER TABLE ONLY public.subtipomovimiento
 
 
 --
--- TOC entry 4914 (class 0 OID 0)
+-- TOC entry 4872 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: pg_database_owner
 --
@@ -774,7 +872,7 @@ ALTER TABLE ONLY public.subtipomovimiento
 REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 
 
--- Completed on 2024-07-15 21:08:09
+-- Completed on 2024-10-15 14:33:12
 
 --
 -- PostgreSQL database dump complete
