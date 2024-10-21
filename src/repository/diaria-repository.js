@@ -4,15 +4,16 @@ import pkg from 'pg'
 
 const { Client, Pool } = pkg;
 export default class definicionesRepository {
-    getTOP6Async = async () => {
+    getTodayAsync = async (fecha) => {
         let returnArray = null;
         const client = new Client(DBConfig);
         try {
             await client.connect();
             console.log('Connected to the database');
-            const sql = `SELECT titulo, contenido FROM definicionterminos
-            LIMIT 6`;
-            const result = await client.query(sql);
+            const sql = `SELECT titulo, descripcion, contenido, fecha FROM lecciondiaria
+            WHERE fecha = $1`;
+            const values = [fecha]
+            const result = await client.query(sql,values);
             await client.end();
             returnArray = result.rows;
         } catch (error) {
@@ -20,14 +21,14 @@ export default class definicionesRepository {
         }
         return returnArray;
     }
-    addDefinicionAsync = async (titulo, contenido) => {
+    addleccionAsync = async (titulo, descripcion, contenido, fecha) => {
         let returnArray = null;
         const client = new Client(DBConfig);
         try {
             await client.connect();
-            const sql = `INSERT INTO lecciondiaria (titulo, contenido)
-            VALUES ($1, $2)`;
-            const values = [titulo, contenido] //preguntar que es
+            const sql = `INSERT INTO lecciondiaria (titulo, descripcion, contenido, fecha)
+            VALUES ($1, $2, $3, $4)`;
+            const values = [titulo, descripcion, contenido, fecha] //preguntar que es
             const result = await client.query(sql,values);
             console.log('Data inserted successfully');
             await client.end();
@@ -38,13 +39,13 @@ export default class definicionesRepository {
         console.log(returnArray)
         return returnArray;
     }
-    deleteByIdAsync = async (idtermino) => {
+    deleteByIdAsync = async (idleccion) => {
         let returnArray = null;
         const client = new Client(DBConfig);
         try {
             await client.connect();
-            const sql = `DELETE FROM definicionterminos where idtermino = $1`;
-            const values = [idtermino] //preguntar que es
+            const sql = `DELETE FROM lecciondiaria where idleccion = $1`;
+            const values = [idleccion] //preguntar que es
             const result = await client.query(sql,values);
             console.log('Data inserted successfully');
             await client.end();
@@ -55,20 +56,31 @@ export default class definicionesRepository {
         console.log(returnArray)
         return returnArray;
     }
-    getDefinicionesAsync = async () => {
+    /*actualizar*/
+    // Repositorio: Función para actualizar un campo específico de una lección diaria
+    updateFieldByIdAsync = async (idleccion, fieldName, fieldValue) => {
         let returnArray = null;
         const client = new Client(DBConfig);
         try {
             await client.connect();
-            const sql = `Select * from definicionterminos`;
-            const result = await client.query(sql);
-            console.log('Data inserted successfully');
+            
+            // Evitar inyección SQL usando valores parametrizados
+            const sql = `UPDATE lecciondiaria
+                        SET ${fieldName} = $1
+                        WHERE idleccion = $2`;
+                        
+            const values = [fieldValue, idleccion]; // El valor del campo a actualizar y el ID de la lección
+            
+            const result = await client.query(sql, values);
+            console.log(`${fieldName} updated successfully`);
+            
             await client.end();
             returnArray = result.rows;
         } catch (error) {
-            console.log(error);
+            console.error('Error during update:', error);
+            throw error;  // Propaga el error para que el controlador lo maneje
         }
-        console.log(returnArray)
         return returnArray;
-    }
+    };
+        
 }
