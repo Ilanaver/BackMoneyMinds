@@ -16,25 +16,19 @@ export default class estadisticasService{
         const returnArray = await repo.getSaldoPorMesAsync(idusuario, tipo, ano);
         return returnArray;
     }
-    getSubtiposByTipoAsync = async (idtipos) => {
-        const repo = new gestorRepository();
-        const returnArray = await repo.getSubtiposByTipoAsync(idtipos);
+    getPromedioDiarioAsync = async (idusuario, tipo, mes, ano) => {
+        const repo = new estadisticasRepository();
+        const returnArray = await repo.getPromedioDiarioAsync(idusuario, tipo, mes, ano);
         return returnArray;
     }
-    getSaldoByTipoIdAsync = async (idusuario, idtipos, mes, ano) => {
-        const repo = new gestorRepository();
-        const returnArray = await repo.getSaldoByTipoIdAsync(idusuario, idtipos, mes, ano);
+    getRealDiarioAsync = async (idusuario, tipo, mes, ano) => {
+        const repo = new estadisticasRepository();
+        const returnArray = await repo.getRealDiarioAsync(idusuario, tipo, mes, ano);
         return returnArray;
     }
-    addByIdAsync = async (IdPerfil, IdTipos, IdSubTipo, Importe, Fecha, Observaciones) => {
-        const repo = new gestorRepository();
-        console.log("XXXXXX: " + IdPerfil)
-        const returnArray = await repo.addByIdAsync(IdPerfil, IdTipos, IdSubTipo, Importe, Fecha, Observaciones);
-        return returnArray;
-    }
-    deleteByIdAsync = async (idusuario) => {
-        const repo = new gestorRepository();
-        const returnArray = await repo.deleteByIdAsync(idusuario);
+    getTop3PorCategoriaAsync = async (idusuario, tipo, mes, ano) => {
+        const repo = new estadisticasRepository();
+        const returnArray = await repo.getTop3PorCategoriaAsync(idusuario, tipo, mes, ano);
         return returnArray;
     }
 }
