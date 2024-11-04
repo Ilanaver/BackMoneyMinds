@@ -8,13 +8,15 @@ const gestor = new gestorRepository();
 
 export default class estadisticasRepository {
     //Compara los porcentajes de en que se gasto por categoria
-    getGastosPorCategoriaAsync = async (idusuario, mes, ano) => {
-        let returnArray = null;
+     getGastosPorCategoriaAsync = async (idusuario, tipo, mes, ano) => {
+        let returnArray = [];
         const client = new Client(DBConfig);
+    
         try {
-            const saldoTotalArray = await gestor.getSaldoByTipoIdAsync(idusuario, 1, mes, ano);
+            // Obtén el saldo total para calcular los porcentajes en JavaScript
+            const saldoTotalArray = await gestor.getSaldoByTipoIdAsync(idusuario, tipo, mes, ano);
             const saldoTotal = parseFloat(saldoTotalArray[0]?.["Saldo actual"]) || 0;
-            console.log("Saldo total:", saldoTotal); // Muestra el saldo real, con signo
+            console.log("Saldo total:", saldoTotal);
     
             if (saldoTotal === 0) {
                 console.log("El gasto total es 0, no se pueden calcular porcentajes.");
@@ -24,73 +26,44 @@ export default class estadisticasRepository {
             await client.connect();
             console.log('Connected to the database');
     
+            // Consulta para obtener los totales por categoría
             const categoriaSql = `
                 SELECT s.descripcion AS categoria, 
-                    SUM(g.importe) AS total_categoria,
-                    ROUND(CAST((ABS(SUM(g.importe)) / ABS($4)) * 100 AS numeric), 0) AS porcentaje_categoria
+                    SUM(g.importe) AS total_categoria
                 FROM gestor g
                 INNER JOIN subtipomovimiento s ON g.idsubtipo_fk = s.idsubtipo
                 WHERE g.idperfil_fk = $1 
-                AND s.idtipos_fk = 1  -- Solo gastos
-                AND EXTRACT(MONTH FROM g.fecha) = $2 
-                AND EXTRACT(YEAR FROM g.fecha) = $3
+                    AND s.idtipos_fk = $2  -- Solo gastos
+                    AND EXTRACT(MONTH FROM g.fecha) = $3 
+                    AND EXTRACT(YEAR FROM g.fecha) = $4
                 GROUP BY s.descripcion
                 ORDER BY total_categoria DESC;
             `;
-
-            const categoriaValues = [idusuario, mes, ano, saldoTotal];
+    
+            const categoriaValues = [idusuario, tipo, mes, ano];
             const categoriaResult = await client.query(categoriaSql, categoriaValues);
     
-            returnArray = categoriaResult.rows;
-            await client.end();
+            // Calcula el porcentaje en JavaScript
+            returnArray = categoriaResult.rows.map(row => {
+                const totalCategoria = parseFloat(row.total_categoria);
+                const porcentajeCategoria = Math.round((Math.abs(totalCategoria) / Math.abs(saldoTotal)) * 100);
+                return {
+                    categoria: row.categoria,
+                    total_categoria: totalCategoria,
+                    porcentaje_categoria: porcentajeCategoria
+                };
+            });
+    
         } catch (error) {
-            console.log(error);
+            console.error("Error al obtener los gastos por categoría:", error);
+        } finally {
+            await client.end().catch((e) => console.error("Error al cerrar la conexión:", e));
         }
         return returnArray;
     };
+    
         
-    //Compara los porcentajes de en que se ingreso mas por categoria
-    getIngresosPorCategoriaAsync = async (idusuario, mes, ano) => {
-        let returnArray = null;
-        const client = new Client(DBConfig);
-        try {
-            // Obtenemos el saldo total de ingresos para el cálculo de porcentaje
-            const saldoTotalArray = await gestor.getSaldoByTipoIdAsync(idusuario, 2, mes, ano); // Filtramos por ingresos (idtipos_fk = 2)
-            const saldoTotal = parseFloat(saldoTotalArray[0]?.["Saldo actual"]) || 0;
-            console.log("Saldo total de ingresos:", saldoTotal); 
     
-            if (saldoTotal === 0) {
-                console.log("El ingreso total es 0, no se pueden calcular porcentajes.");
-                return [];
-            }
-    
-            await client.connect();
-            console.log('Connected to the database');
-    
-            // Consulta SQL para obtener ingresos por categoría y su porcentaje
-            const categoriaSql = `
-                SELECT s.descripcion AS categoria, 
-                       SUM(g.importe) AS total_categoria,
-                       ROUND(CAST((ABS(SUM(g.importe)) / ABS($4)) * 100 AS numeric), 0) AS porcentaje_categoria
-                FROM gestor g
-                INNER JOIN subtipomovimiento s ON g.idsubtipo_fk = s.idsubtipo
-                WHERE g.idperfil_fk = $1 
-                AND s.idtipos_fk = 2  -- Solo ingresos
-                AND EXTRACT(MONTH FROM g.fecha) = $2 
-                AND EXTRACT(YEAR FROM g.fecha) = $3
-                GROUP BY s.descripcion
-                ORDER BY total_categoria DESC;
-            `;
-            const categoriaValues = [idusuario, mes, ano, saldoTotal];
-            const categoriaResult = await client.query(categoriaSql, categoriaValues);
-    
-            returnArray = categoriaResult.rows;
-            await client.end();
-        } catch (error) {
-            console.log(error);
-        }
-        return returnArray;
-    };
     getSaldoPorMesAsync = async (idusuario, tipo, ano) => {
         const saldosPorMes = [];
         try {

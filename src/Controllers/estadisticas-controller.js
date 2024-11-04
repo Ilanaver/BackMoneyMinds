@@ -7,46 +7,24 @@ const router = Router();
 const svc =  new estadisticasService();
 
 //Compara los porcentajes de en que se gasto por categoria
-router.get('/catgastos/:idusuario/:mes/:ano', async (req, res) => {
-    let respuesta;
-    const idusuario = req.params.idusuario; 
-    const mes = req.params.mes; 
-    const ano = req.params.ano; 
+router.get('/catgastos/:idusuario/:tipo/:mes/:ano', async (req, res) => {
+    const { idusuario, tipo, mes, ano } = req.params;
 
-    const returnArray = await svc.getGastosPorCategoriaAsync(idusuario, mes, ano);
-    console.log('entra')
-    if(returnArray != null)
-    {
-        console.log('normal')
-        respuesta = res.status(200).json(returnArray);
-    } else
-    {
-        console.log('else')
-        respuesta = res.status(500).send('Error Interno')
+    try {
+        const returnArray = await svc.getGastosPorCategoriaAsync(idusuario, tipo, mes, ano);
+
+        if (returnArray && returnArray.length > 0) {
+            res.status(200).json(returnArray);
+        } else {
+            res.status(404).send('No se encontraron gastos para esta categoría.');
+        }
+    } catch (error) {
+        console.error("Error en la ruta de gastos por categoría:", error);
+        res.status(500).send('Error Interno');
     }
-    return respuesta;
-}) 
+});
 
-//Compara los porcentajes de en que se ingresa por categoria
-router.get('/catingresos/:idusuario/:mes/:ano', async (req, res) => {
-    let respuesta;
-    const idusuario = req.params.idusuario; 
-    const mes = req.params.mes; 
-    const ano = req.params.ano; 
 
-    const returnArray = await svc.getIngresosPorCategoriaAsync(idusuario, mes, ano);
-    console.log('entra')
-    if(returnArray != null)
-    {
-        console.log('normal')
-        respuesta = res.status(200).json(returnArray);
-    } else
-    {
-        console.log('else')
-        respuesta = res.status(500).send('Error Interno')
-    }
-    return respuesta;
-}) 
 router.get('/saldoMeses/:idusuario/:tipo/:ano', async (req, res) => {
     let respuesta;
     console.log("paso")

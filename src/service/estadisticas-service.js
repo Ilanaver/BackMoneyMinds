@@ -1,14 +1,9 @@
 import estadisticasRepository from '../repository/estadisticas-repository.js'
 
 export default class estadisticasService{
-    getGastosPorCategoriaAsync = async (idusuario, mes, ano) => {
+    getGastosPorCategoriaAsync = async (idusuario, tipo, mes, ano) => {
         const repo = new estadisticasRepository();
-        const returnArray = await repo.getGastosPorCategoriaAsync(idusuario, mes, ano);
-        return returnArray;
-    }
-    getIngresosPorCategoriaAsync = async (idusuario, mes, ano) => {
-        const repo = new estadisticasRepository();
-        const returnArray = await repo.getIngresosPorCategoriaAsync(idusuario, mes, ano);
+        const returnArray = await repo.getGastosPorCategoriaAsync(idusuario, tipo, mes, ano);
         return returnArray;
     }
     getSaldoPorMesAsync = async (idusuario, tipo, ano) => {
