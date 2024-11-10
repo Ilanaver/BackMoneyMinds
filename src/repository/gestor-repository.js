@@ -73,18 +73,28 @@ export default class gestorRepository {
         try {
             await client.connect();
             console.log('Connected to the database 2');
-            const sql = `SELECT SUM(g.importe) as "Saldo actual"
-            FROM gestor g
-            WHERE g.idperfil_fk = $1 AND EXTRACT(MONTH FROM g.fecha) = $2 AND EXTRACT(YEAR FROM g.fecha) = $3;`;
-            const values = [idusuario, mes, ano] 
-            const result = await client.query(sql,values);
+            const sql = `
+                SELECT SUM(
+                    CASE 
+                        WHEN g.idtipos_fk = 1 THEN -g.importe  -- Si idtipos es 1, restar
+                        ELSE g.importe                      -- En otro caso, sumar
+                    END
+                ) as "Saldo actual"
+                FROM gestor g
+                WHERE g.idperfil_fk = $1 
+                  AND EXTRACT(MONTH FROM g.fecha) = $2 
+                  AND EXTRACT(YEAR FROM g.fecha) = $3;
+            `;
+            const values = [idusuario, mes, ano];
+            const result = await client.query(sql, values);
             await client.end();
             returnArray = result.rows;
         } catch (error) {
             console.log(error);
         }
         return returnArray;
-    } 
+    };
+    
     getSaldoByTipoIdAsync = async (idusuario, idtipos, mes, ano) => {
         let returnArray = null;
         const client = new Client(DBConfig);
