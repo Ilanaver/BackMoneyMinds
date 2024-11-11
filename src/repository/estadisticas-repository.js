@@ -199,5 +199,53 @@ export default class estadisticasRepository {
         return topCategorias;
     };
     
+    getDiaMayorIngresoOGastoAsync = async (idusuario, tipo, mes, ano) => {
+        const client = new Client(DBConfig);
+        let diaMayorIngresoOGasto = {};
+        try {
+            await client.connect();
+            console.log('Connected to the database');
+        
+            // Consulta SQL para obtener el total de ingreso o gasto por día del mes especificado
+            const sql = `
+                SELECT DATE_TRUNC('day', g.fecha) AS fecha, 
+                       SUM(g.importe) AS total_dia
+                FROM gestor g
+                WHERE g.idperfil_fk = $1 
+                  AND g.idtipos_fk = $2  -- Solo ingresos o gastos según el tipo
+                  AND EXTRACT(MONTH FROM g.fecha) = $3 
+                  AND EXTRACT(YEAR FROM g.fecha) = $4
+                GROUP BY DATE_TRUNC('day', g.fecha)
+                ORDER BY total_dia DESC
+                LIMIT 1;  -- Limitar a solo el día con el mayor total
+            `;
+            const values = [idusuario, tipo, mes, ano];
+            const result = await client.query(sql, values);
+        
+            if (result.rows.length > 0) {
+                const row = result.rows[0];
+                const dia = new Date(row.fecha).getDate();  // Extraemos el día del resultado
+                const totalDia = parseFloat(row.total_dia);  // El total del ingreso o gasto en ese día
+    
+                // Array de días de la semana en español
+                const diasSemana = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+                const nombreDia = diasSemana[new Date(row.fecha).getDay()];  // Obtenemos el nombre del día
+    
+                diaMayorIngresoOGasto = {
+                    dia,
+                    nombreDia,
+                    totalDia
+                };
+            } else {
+                diaMayorIngresoOGasto = { dia: null, nombreDia: null, totalDia: 0 };
+            }
+    
+            await client.end();
+        } catch (error) {
+            console.log("Error al obtener el día con mayor ingreso o gasto:", error);
+        }
+    
+        return diaMayorIngresoOGasto;
+    };
     
 }

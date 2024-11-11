@@ -96,4 +96,22 @@ router.get('/top3cat/:idusuario/:tipo/:mes/:ano', async (req, res) => {
     }
     return respuesta;
 });
+router.get('/diamayor/:idusuario/:tipo/:mes/:ano', async (req, res) => {
+    let respuesta;
+    console.log("paso")
+    const idusuario = req.params.idusuario; 
+    const tipo = req.params.tipo; 
+    const mes = req.params.mes;
+    const ano = req.params.ano;
+    const returnArray = await svc.getDiaMayorIngresoOGastoAsync(idusuario, tipo, mes, ano); // Llama a la función correcta
+    console.log('entra');
+    if (returnArray != null) {
+        console.log('normal');
+        respuesta = res.status(200).json(returnArray);
+    } else {
+        console.log('else');
+        respuesta = res.status(500).send('Error Interno');
+    }
+    return respuesta;
+});
 export default router;

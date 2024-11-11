@@ -26,4 +26,9 @@ export default class estadisticasService{
         const returnArray = await repo.getTop3PorCategoriaAsync(idusuario, tipo, mes, ano);
         return returnArray;
     }
+    getDiaMayorIngresoOGastoAsync = async (idusuario, tipo, mes, ano) => {
+        const repo = new estadisticasRepository();
+        const returnArray = await repo.getDiaMayorIngresoOGastoAsync(idusuario, tipo, mes, ano);
+        return returnArray;
+    }
 }
