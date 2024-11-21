@@ -41,7 +41,7 @@ export default class definicionesRepository {
         try {
             await client.connect();
             console.log('Connected to the database');
-            const sql = `SELECT titulo, img FROM contenidoaudiovisual
+            const sql = `SELECT idvideo, titulo, img FROM contenidoaudiovisual
             WHERE categoria = $1`;
             const values = [categoria] 
             const result = await client.query(sql, values);
