@@ -11,21 +11,29 @@ export default class gestorRepository {
         try {
             await client.connect();
             console.log('Connected to the database');
-            const sql = `SELECT g.importe, t.descripcion AS tipo, s.descripcion AS subtipo
-            FROM gestor g
-            INNER JOIN tipos t ON g.idtipos_fk = t.idtipos
-            INNER JOIN subtipomovimiento s ON g.idsubtipo_fk = s.idsubtipo
-            WHERE g.idperfil_fk = $1 AND EXTRACT(MONTH FROM g.fecha) = $2 AND EXTRACT(YEAR FROM g.fecha) = $3
-            ORDER BY g.fecha`;
-            const values = [idusuario, mes, ano] 
-            const result = await client.query(sql,values);
+            const sql = `
+                SELECT 
+                    g.importe, 
+                    t.descripcion AS tipo, 
+                    s.descripcion AS subtipo, 
+                    TO_CHAR(g.fecha, 'YYYY-MM-DD') AS fecha
+                FROM gestor g
+                INNER JOIN tipos t ON g.idtipos_fk = t.idtipos
+                INNER JOIN subtipomovimiento s ON g.idsubtipo_fk = s.idsubtipo
+                WHERE g.idperfil_fk = $1 
+                  AND EXTRACT(MONTH FROM g.fecha) = $2 
+                  AND EXTRACT(YEAR FROM g.fecha) = $3
+                ORDER BY g.fecha`;
+            const values = [idusuario, mes, ano];
+            const result = await client.query(sql, values);
             await client.end();
             returnArray = result.rows;
         } catch (error) {
             console.log(error);
         }
         return returnArray;
-    }
+    };
+    
     getReporteByMesAsync = async (idusuario, fecha) => {
         let returnArray = null;
         const client = new Client(DBConfig);
