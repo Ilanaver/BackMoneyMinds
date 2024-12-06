@@ -95,7 +95,7 @@ router.get('/:idusuario/:mes/:ano', async (req, res) => {
 
 router.post('/addOperacion', async (req, res) => {
     let { idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones } = req.body;
-    if (!idperfil_fk || !idtipos_fk || !idsubtipo_fk || !importe || !fecha || !observaciones) {
+    if (!idperfil_fk || !idtipos_fk || !idsubtipo_fk || !importe || !fecha) {
         res.status(400).send("Faltan datos");
         console.log(idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones);
     } else {
