@@ -8,6 +8,7 @@ import Usuario from '../src/Controllers/usuario-controller.js'
 import Asesor from '../src/Controllers/asesor-controller.js'
 import LeccionDiaria from '../src/Controllers/diaria-controller.js'
 import Estadisticas from '../src/Controllers/estadisticas-controller.js'
+import Cuenta from '../src/Controllers/cuenta-controller.js'
 import express from "express"; // hacer npm i express
 import cors from "cors"; // hacer npm i cors
 const app = express();
@@ -28,7 +29,7 @@ app.use('/usuario', Usuario)
 app.use('/asesor',Asesor)
 app.use('/leccion-diaria',LeccionDiaria)
 app.use('/estadisticas',Estadisticas)
-
+app.use('/cuenta',Cuenta)
 
 
 

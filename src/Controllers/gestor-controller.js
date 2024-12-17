@@ -5,13 +5,14 @@ import Gestor from "../entities/gestor.js";
 
 const router = Router();
 const svc =  new gestorService();
-router.get('/operaciones/:idusuario/:mes/:ano', async (req, res) => {
+router.get('/operaciones/:idusuario/:mes/:ano/:idcuenta', async (req, res) => {
     let respuesta;
     const idusuario = req.params.idusuario; 
     const mes = req.params.mes; 
-    const ano = req.params.ano; 
+    const ano = req.params.ano;
+    const idcuenta = req.params.idcuenta;
 
-    const returnArray = await svc.getByIdAsync(idusuario, mes, ano);
+    const returnArray = await svc.getByIdAndAccountAsync(idusuario, mes, ano, idcuenta);
     console.log('entra')
     if(returnArray != null)
     {
@@ -24,46 +25,16 @@ router.get('/operaciones/:idusuario/:mes/:ano', async (req, res) => {
     }
     return respuesta;
 }) 
-router.get('/subtipos/:idtipos', async (req, res) => {
-    let respuesta;
-    const idtipos = req.params.idtipos;
-    const returnArray = await svc.getSubtiposByTipoAsync(idtipos);
-    console.log('entra')
-    if(returnArray != null)
-    {
-        console.log('normal')
-        respuesta = res.status(200).json(returnArray);
-    } else
-    {
-        console.log('else')
-        respuesta = res.status(500).send('Error Interno')
-    }
-    return respuesta;
-}) 
-router.get('/operaciones/:idusuario/:idtipos', async (req, res) => {
+router.get('/operacionesTipo/:idusuario/:mes/:ano/:idcuenta/:idtipos', async (req, res) => {
     let respuesta;
     console.log("paso")
     const idusuario = req.params.idusuario; 
+    const mes = req.params.mes
+    const ano = req.params.ano
+    const idcuenta = req.params.idcuenta
     const idtipos = req.params.idtipos;
-    const returnArray = await svc.getOppByTipoAsync(idusuario, idtipos); // Llama a la función correcta
-    console.log('entra');
-    if (returnArray != null) {
-        console.log('normal');
-        respuesta = res.status(200).json(returnArray);
-    } else {
-        console.log('else');
-        respuesta = res.status(500).send('Error Interno');
-    }
-    return respuesta;
-});
-router.get('/:idusuario/:idtipos/:mes/:ano', async (req, res) => {
-    let respuesta;
-    console.log("paso")
-    const idusuario = req.params.idusuario; 
-    const idtipos = req.params.idtipos;
-    const mes = req.params.mes; 
-    const ano = req.params.ano; 
-    const returnArray = await svc.getSaldoByTipoIdAsync(idusuario, idtipos, mes, ano); // Llama a la función correcta
+
+    const returnArray = await svc.getoppByTipoAsync(idusuario, mes, ano, idcuenta, idtipos); // Llama a la función correcta
     console.log('entra');
     if (returnArray != null) {
         console.log('normal');
@@ -92,15 +63,52 @@ router.get('/:idusuario/:mes/:ano', async (req, res) => {
     }
     return respuesta;
 }) 
-
-router.post('/addOperacion', async (req, res) => {
-    let { idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones } = req.body;
-    if (!idperfil_fk || !idtipos_fk || !idsubtipo_fk || !importe || !fecha) {
-        res.status(400).send("Faltan datos");
-        console.log(idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones);
+router.get('/:idusuario/:idtipos/:mes/:ano', async (req, res) => {
+    let respuesta;
+    console.log("paso")
+    const idusuario = req.params.idusuario; 
+    const idtipos = req.params.idtipos;
+    const mes = req.params.mes; 
+    const ano = req.params.ano; 
+    const returnArray = await svc.getSaldoByTipoIdAsync(idusuario, idtipos, mes, ano); // Llama a la función correcta
+    console.log('entra');
+    if (returnArray != null) {
+        console.log('normal');
+        respuesta = res.status(200).json(returnArray);
     } else {
-        const result = await svc.addByIdAsync(idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones);
-        res.status(201).json({ message: 'Se agrego correctamente.', result });
+        console.log('else');
+        respuesta = res.status(500).send('Error Interno');
+    }
+    return respuesta;
+});
+router.get('/subtipos/:idtipos', async (req, res) => {
+    let respuesta;
+    const idtipos = req.params.idtipos;
+    const returnArray = await svc.getSubtiposByTipoAsync(idtipos);
+    console.log('entra')
+    if(returnArray != null)
+    {
+        console.log('normal')
+        respuesta = res.status(200).json(returnArray);
+    } else
+    {
+        console.log('else')
+        respuesta = res.status(500).send('Error Interno')
+    }
+    return respuesta;
+}) 
+router.post('/addOperacion', async (req, res) => {
+    const { idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones, idcuenta_fk } = req.body;
+    if (!idperfil_fk || !idtipos_fk || !idsubtipo_fk || !importe || !fecha || !idcuenta_fk) {
+        res.status(400).send("Faltan datos");
+    } else {
+        try {
+            const result = await svc.addByIdAsync(idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones, idcuenta_fk);
+            res.status(201).json({ message: 'Se agregó correctamente.', result });
+        } catch (error) {
+            console.error('Error adding operation:', error);
+            res.status(500).send('Error Interno');
+        }
     }
 });
 /*
@@ -113,20 +121,14 @@ router.post('/addOperacion', async (req, res) => {
     "observaciones": "cobre el aguinaldo"
 }
 */
-router.delete('/operaciones/:idusuario', async (req, res) => {
-    let respuesta;
-    const idusuario = req.params.idusuario; 
-    const returnArray = await svc.deleteByIdAsync(idusuario);
-    console.log('entra')
-    if(returnArray != null)
-    {
-        console.log('normal')
-        respuesta = res.status(200).json('Eliminado correctamente.');
-    } else
-    {
-        console.log('else')
-        respuesta = res.status(500).send('Error Interno')
+router.delete('/operaciones/:idgestor', async (req, res) => {
+    const { idgestor } = req.params;
+    try {
+        await svc.deleteByIdAsync(idgestor);
+        res.status(200).json({ message: 'Eliminado correctamente.' });
+    } catch (error) {
+        console.error('Error deleting operation:', error);
+        res.status(500).send('Error Interno');
     }
-    return respuesta;
-}) 
+});
 export default router;

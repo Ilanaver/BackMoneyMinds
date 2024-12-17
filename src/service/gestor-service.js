@@ -1,14 +1,14 @@
 import gestorRepository from '../repository/gestor-repository.js'
 
 export default class gestorService{
-    getByIdAsync = async (idusuario, mes, ano) => {
+    getByIdAndAccountAsync = async (idusuario, mes, ano, idCuenta) => {
         const repo = new gestorRepository();
-        const returnArray = await repo.getByIdAsync(idusuario, mes, ano);
+        const returnArray = await repo.getByIdAndAccountAsync(idusuario, mes, ano, idCuenta);
         return returnArray;
     }
-    getOppByTipoAsync = async (idusuario, idtipos) => {
+    getoppByTipoAsync = async (idusuario, mes, ano, idCuenta, idtipos) => {
         const repo = new gestorRepository();
-        const returnArray = await repo.getOppByTipoAsync(idusuario, idtipos);
+        const returnArray = await repo.getoppByTipoAsync(idusuario, mes, ano, idCuenta, idtipos);
         return returnArray;
     }
     getSaldoByIdAsync = async (idusuario, mes, ano) => {
@@ -16,25 +16,24 @@ export default class gestorService{
         const returnArray = await repo.getSaldoByIdAsync(idusuario, mes, ano);
         return returnArray;
     }
-    getSubtiposByTipoAsync = async (idtipos) => {
-        const repo = new gestorRepository();
-        const returnArray = await repo.getSubtiposByTipoAsync(idtipos);
-        return returnArray;
-    }
     getSaldoByTipoIdAsync = async (idusuario, idtipos, mes, ano) => {
         const repo = new gestorRepository();
         const returnArray = await repo.getSaldoByTipoIdAsync(idusuario, idtipos, mes, ano);
         return returnArray;
     }
-    addByIdAsync = async (IdPerfil, IdTipos, IdSubTipo, Importe, Fecha, Observaciones) => {
+    getSubtiposByTipoAsync = async (idtipos) => {
         const repo = new gestorRepository();
-        console.log("XXXXXX: " + IdPerfil)
-        const returnArray = await repo.addByIdAsync(IdPerfil, IdTipos, IdSubTipo, Importe, Fecha, Observaciones);
+        const returnArray = await repo.getSubtiposByTipoAsync(idtipos);
         return returnArray;
     }
-    deleteByIdAsync = async (idusuario) => {
+    addByIdAsync = async (IdPerfil, IdTipos, IdSubTipo, Importe, Fecha, Observaciones, IdCuenta) => {
         const repo = new gestorRepository();
-        const returnArray = await repo.deleteByIdAsync(idusuario);
+        const returnArray = await repo.addByIdAsync(IdPerfil, IdTipos, IdSubTipo, Importe, Fecha, Observaciones, IdCuenta);
+        return returnArray;
+    };
+    deleteByIdAsync = async (IdGestor) => {
+        const repo = new gestorRepository();
+        const returnArray = await repo.deleteByIdAsync(IdGestor);
         return returnArray;
     }
 }
