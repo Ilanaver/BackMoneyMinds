@@ -20,6 +20,11 @@ export default class cuentaService{
         const returnArray = await repo.deleteByIdAsync(idcuenta);
         return returnArray;
     }
+    deleteAllGestorAsync = async (idcuenta) => {
+        const repo = new cuentaRepository();
+        const returnArray = await repo.deleteAllGestorAsync(idcuenta);
+        return returnArray;
+    }
     updateFieldByIdAsync = async (idcuenta, fieldName, fieldValue) => {
         const repo = new cuentaRepository();
         const returnArray = await repo.updateFieldByIdAsync(idcuenta, fieldName, fieldValue);

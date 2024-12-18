@@ -78,6 +78,22 @@ router.delete('/deleteCuenta/:idcuenta', async (req, res) => {
     }
     return respuesta;
 }) 
+router.delete('/deleteGestor/:idcuenta', async (req, res) => {
+    let respuesta;
+    const idcuenta = req.params.idcuenta; 
+    const returnArray = await svc.deleteAllGestorAsync(idcuenta);
+    console.log('entra')
+    if(returnArray != null)
+    {
+        console.log('normal')
+        respuesta = res.status(200).json('Eliminado correctamente.');
+    } else
+    {
+        console.log('else')
+        respuesta = res.status(500).send('Error Interno')
+    }
+    return respuesta;
+}) 
 router.patch('/actualizar-cuenta/:idcuenta', async (req, res) => {
     try {
         const idcuenta = req.params.idcuenta;  // Obtener el ID de la lección desde los parámetros de la URL

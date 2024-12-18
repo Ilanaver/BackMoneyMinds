@@ -39,6 +39,23 @@ export default class cuentaRepository {
         console.log(returnArray)
         return returnArray;
     }
+    deleteAllGestorAsync = async (idcuenta) => {
+        let returnArray = null;
+        const client = new Client(DBConfig);
+        try {
+            await client.connect();
+            const sql = `DELETE FROM gestor where idcuenta_fk = $1`;
+            const values = [idcuenta] //preguntar que es
+            const result = await client.query(sql,values);
+            console.log('Data inserted successfully');
+            await client.end();
+            returnArray = result.rows;
+        } catch (error) {
+            console.log(error);
+        }
+        console.log(returnArray)
+        return returnArray;
+    }
     getCuentasAsync = async (idperfil_fk) => {
         let returnArray = null;
         const client = new Client(DBConfig);
