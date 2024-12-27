@@ -63,14 +63,15 @@ router.get('/:idusuario/:mes/:ano', async (req, res) => {
     }
     return respuesta;
 }) 
-router.get('/:idusuario/:idtipos/:mes/:ano', async (req, res) => {
+router.get('/:idusuario/:idtipos/:idcuenta/:mes/:ano', async (req, res) => {
     let respuesta;
     console.log("paso")
     const idusuario = req.params.idusuario; 
     const idtipos = req.params.idtipos;
+    const idcuenta = req.params.idcuenta;
     const mes = req.params.mes; 
     const ano = req.params.ano; 
-    const returnArray = await svc.getSaldoByTipoIdAsync(idusuario, idtipos, mes, ano); // Llama a la función correcta
+    const returnArray = await svc.getSaldoByTipoIdAsync(idusuario, idtipos, idcuenta, mes, ano); // Llama a la función correcta
     console.log('entra');
     if (returnArray != null) {
         console.log('normal');

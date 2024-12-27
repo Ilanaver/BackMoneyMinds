@@ -16,9 +16,9 @@ export default class gestorService{
         const returnArray = await repo.getSaldoByIdAsync(idusuario, mes, ano);
         return returnArray;
     }
-    getSaldoByTipoIdAsync = async (idusuario, idtipos, mes, ano) => {
+    getSaldoByTipoIdAsync = async (idusuario, idtipos, idcuenta, mes, ano) => {
         const repo = new gestorRepository();
-        const returnArray = await repo.getSaldoByTipoIdAsync(idusuario, idtipos, mes, ano);
+        const returnArray = await repo.getSaldoByTipoIdAsync(idusuario, idtipos, idcuenta, mes, ano);
         return returnArray;
     }
     getSubtiposByTipoAsync = async (idtipos) => {
