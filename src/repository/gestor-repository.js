@@ -73,7 +73,7 @@ export default class gestorRepository {
         return returnArray;
     };
     
-    getSaldoByIdAsync = async (idusuario, mes, ano) => {
+    getSaldoByIdAsync = async (idusuario, idcuenta, mes, ano) => {
         let returnArray = null;
         const client = new Client(DBConfig);
         try {
@@ -88,10 +88,11 @@ export default class gestorRepository {
                 ) as "Saldo Mensual"
                 FROM gestor g
                 WHERE g.idperfil_fk = $1 
-                  AND EXTRACT(MONTH FROM g.fecha) = $2 
-                  AND EXTRACT(YEAR FROM g.fecha) = $3;
+                  AND g.idcuenta_fk = $2
+                  AND EXTRACT(MONTH FROM g.fecha) = $3 
+                  AND EXTRACT(YEAR FROM g.fecha) = $4;
             `;
-            const values = [idusuario, mes, ano];
+            const values = [idusuario, idcuenta, mes, ano];
             const result = await client.query(sql, values);
             await client.end();
             returnArray = result.rows;
@@ -100,6 +101,7 @@ export default class gestorRepository {
         }
         return returnArray;
     };
+    
     
     getSaldoByTipoIdAsync = async (idusuario, idtipos, idcuenta, mes, ano) => {
         let returnArray = null;

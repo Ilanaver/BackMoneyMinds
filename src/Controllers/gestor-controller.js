@@ -45,12 +45,13 @@ router.get('/operacionesTipo/:idusuario/:mes/:ano/:idcuenta/:idtipos', async (re
     }
     return respuesta;
 });
-router.get('/:idusuario/:mes/:ano', async (req, res) => {
+router.get('/:idusuario/:idcuenta/:mes/:ano', async (req, res) => {
     let respuesta;
     const idusuario = req.params.idusuario; 
+    const idcuenta = req.params.idcuenta; 
     const mes = req.params.mes; 
     const ano = req.params.ano; 
-    const returnArray = await svc.getSaldoByIdAsync(idusuario, mes, ano);
+    const returnArray = await svc.getSaldoByIdAsync(idusuario, idcuenta, mes, ano);
     console.log('entra')
     if(returnArray != null)
     {
