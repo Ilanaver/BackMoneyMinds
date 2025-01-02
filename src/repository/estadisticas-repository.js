@@ -68,8 +68,8 @@ export default class estadisticasRepository {
         const saldosPorMes = [];
         try {
             for (let mes = 1; mes <= 12; mes++) {  // Iteramos de enero (1) a diciembre (12)
-                const saldoMensualArray = await gestor.getSaldoByTipoIdAsync(idusuario, tipo, mes, ano);
-                const saldoMensual = parseFloat(saldoMensualArray[0]?.["Saldo actual"]) || 0;
+                const saldoMensualArray = await gestor.getSaldoByTipoForStats(idusuario, tipo, mes, ano);
+                const saldoMensual = parseFloat(saldoMensualArray[0]?.["Saldo Mensual"]) || 0;
                 saldosPorMes.push({ mes, saldo: saldoMensual });
             }
         } catch (error) {

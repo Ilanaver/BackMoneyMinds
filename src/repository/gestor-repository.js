@@ -122,6 +122,7 @@ export default class gestorRepository {
         }
         return returnArray;
     }
+    
     getSaldoByTipoForStats = async (idusuario, idtipos, mes, ano) => {
         let returnArray = null;
         const client = new Client(DBConfig);
