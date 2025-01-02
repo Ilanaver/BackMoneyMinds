@@ -82,8 +82,8 @@ export default class estadisticasRepository {
         let gastoDiarioPromedio = 0;
         try {
             // Paso 1: Obtener el saldo total de gastos del mes usando getSaldoByTipoIdAsync (idtipos = 1 para gastos)
-            const saldoGastosArray = await gestor.getSaldoByTipoIdAsync(idusuario, tipo, mes, ano);
-            const saldoGastos = parseFloat(saldoGastosArray[0]?.["Saldo actual"]) || 0;
+            const saldoGastosArray = await gestor.getSaldoByTipoForStats(idusuario, tipo, mes, ano);
+            const saldoGastos = parseFloat(saldoGastosArray[0]?.["Saldo Mensual"]) || 0;
             console.log("Saldo total de gastos del mes:", saldoGastos);
     
             // Paso 2: Obtener el número de días en el mes
