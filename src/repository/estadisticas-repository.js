@@ -14,8 +14,8 @@ export default class estadisticasRepository {
     
         try {
             // Obtén el saldo total para calcular los porcentajes en JavaScript
-            const saldoTotalArray = await gestor.getSaldoByTipoIdAsync(idusuario, tipo, mes, ano);
-            const saldoTotal = parseFloat(saldoTotalArray[0]?.["Saldo actual"]) || 0;
+            const saldoTotalArray = await gestor.getSaldoByTipoForStats(idusuario, tipo, mes, ano);
+            const saldoTotal = parseFloat(saldoTotalArray[0]?.["Saldo Mensual"]) || 0;
             console.log("Saldo total:", saldoTotal);
     
             if (saldoTotal === 0) {

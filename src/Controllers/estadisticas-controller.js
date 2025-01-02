@@ -12,7 +12,6 @@ router.get('/catgastos/:idusuario/:tipo/:mes/:ano', async (req, res) => {
 
     try {
         const returnArray = await svc.getGastosPorCategoriaAsync(idusuario, tipo, mes, ano);
-
         if (returnArray && returnArray.length > 0) {
             res.status(200).json(returnArray);
         } else {

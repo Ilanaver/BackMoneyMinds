@@ -122,7 +122,24 @@ export default class gestorRepository {
         }
         return returnArray;
     }
-    
+    getSaldoByTipoForStats = async (idusuario, idtipos, mes, ano) => {
+        let returnArray = null;
+        const client = new Client(DBConfig);
+        try {
+            await client.connect();
+            console.log('Connected to the database 2');
+            const sql = `SELECT SUM(g.importe) as "Saldo Mensual"
+            FROM gestor g
+            WHERE g.idperfil_fk = $1 AND g.idtipos_fk = $2 AND EXTRACT(MONTH FROM g.fecha) = $3 AND EXTRACT(YEAR FROM g.fecha) = $4;`;
+            const values = [idusuario, idtipos, mes, ano];
+            const result = await client.query(sql, values);
+            await client.end();
+            returnArray = result.rows;
+        } catch (error) {
+            console.log(error);
+        }
+        return returnArray;
+    }
     getSubtiposByTipoAsync = async (idtipos) => {
         let returnArray = null;
         const client = new Client(DBConfig);
