@@ -47,6 +47,7 @@ export default class gestorRepository {
     
             const sql = `
                 SELECT 
+                    g.idgestor,
                     g.importe, 
                     t.descripcion AS tipo, 
                     s.descripcion AS subtipo, 
