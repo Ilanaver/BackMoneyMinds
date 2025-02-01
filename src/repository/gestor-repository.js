@@ -18,7 +18,8 @@ export default class gestorRepository {
                     t.descripcion AS tipo, 
                     s.descripcion AS subtipo, 
                     TO_CHAR(g.fecha, 'DD/MM') AS fecha,
-                    c.nombre AS cuenta 
+                    c.nombre AS cuenta,
+                    g.observaciones 
                 FROM gestor g
                 INNER JOIN tipos t ON g.idtipos_fk = t.idtipos
                 INNER JOIN subtipomovimiento s ON g.idsubtipo_fk = s.idsubtipo
