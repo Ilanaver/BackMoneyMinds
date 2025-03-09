@@ -5,7 +5,7 @@ import Gestor from "../entities/gestor.js";
 
 const router = Router();
 const svc =  new gestorService();
-router.get('/operaciones/:idusuario/:mes/:ano/:idcuenta', async (req, res) => {
+router.get('/operaciones/:idusuario/:mes/:ano/:idcauenta', async (req, res) => {
     let respuesta;
     const idusuario = req.params.idusuario; 
     const mes = req.params.mes; 

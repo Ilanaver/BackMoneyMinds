@@ -169,33 +169,86 @@ export default class gestorRepository {
         try {
             await client.connect();
 
-            // Iniciar una transacción
-            await client.query('BEGIN');
+            // Verificar si el subtipo indica que proviene de ahorros
+            const sqlCheckSubtipo = `
+                SELECT descripcion 
+                FROM subtipomovimiento 
+                WHERE idsubtipo = $1
+            `;
+            const subtipoResult = await client.query(sqlCheckSubtipo, [IdSubTipo]);
+
+            if (subtipoResult.rows[0]?.descripcion === 'Desde ahorros') {
+                // Verificar saldo disponible en ahorros
+                const sqlSaldoAhorros = `
+                    SELECT SUM(
+                        CASE 
+                            WHEN idtipos_fk = 1 THEN -importe
+                            ELSE importe
+                        END
+                    ) as saldo
+                    FROM gestor 
+                    WHERE idperfil_fk = $1 
+                      AND idcuenta_fk = $2 
+                      AND idtipos_fk = 3
+                `;
+                const saldoResult = await client.query(sqlSaldoAhorros, [IdPerfil, IdCuenta]);
+                const saldoAhorros = saldoResult.rows[0].saldo || 0;
+
+                if (saldoAhorros < Importe) {
+                    throw new Error('Saldo insuficiente en ahorros');
+                }
+
+                // Registrar la salida de ahorros
+                const sqlDescontarAhorros = `
+                    INSERT INTO gestor (
+                        idperfil_fk, 
+                        idtipos_fk, 
+                        idsubtipo_fk, 
+                        importe, 
+                        fecha, 
+                        observaciones, 
+                        idcuenta_fk
+                    )
+                    VALUES ($1, 3, 48, ($2::numeric * -1), $3, $4, $5)
+                `;
+                await client.query(sqlDescontarAhorros, [
+                    IdPerfil,
+                    Importe,
+                    Fecha,
+                    'Descuento de ahorros - ' + Observaciones,
+                    IdCuenta
+                ]);
+            }
 
             // Insertar el nuevo registro en la tabla "gestor"
-            const sqlInsert = `INSERT INTO gestor (idperfil_fk, idtipos_fk, idsubtipo_fk, importe, fecha, observaciones, idcuenta_fk)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)`;
+            const sqlInsert = `
+                INSERT INTO gestor (
+                    idperfil_fk, 
+                    idtipos_fk, 
+                    idsubtipo_fk, 
+                    importe, 
+                    fecha, 
+                    observaciones, 
+                    idcuenta_fk
+                )
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
+            `;
             const valuesInsert = [IdPerfil, IdTipos, IdSubTipo, Importe, Fecha, Observaciones, IdCuenta];
             await client.query(sqlInsert, valuesInsert);
 
-            // Actualizar el saldo de la cuenta en la tabla "cuenta"
+            // Actualizar el saldo de la cuenta
             const sqlUpdateSaldo = `
                 UPDATE cuenta
                 SET saldo_actual = saldo_actual + $1
                 WHERE idcuenta = $2
             `;
-            const saldoAdjustment = IdTipos === 1 ? -Importe : Importe; // Si es gasto (idtipos = 1), restar
-            const valuesUpdateSaldo = [saldoAdjustment, IdCuenta];
-            await client.query(sqlUpdateSaldo, valuesUpdateSaldo);
+            const saldoAdjustment = IdTipos === 1 ? -Importe : Importe;
+            await client.query(sqlUpdateSaldo, [saldoAdjustment, IdCuenta]);
 
-            // Confirmar la transacción
             await client.query('COMMIT');
-
             console.log('Transaction completed successfully');
         } catch (error) {
             console.error('Error during transaction:', error);
-
-            // Revertir la transacción en caso de error
             await client.query('ROLLBACK');
             throw error;
         } finally {
